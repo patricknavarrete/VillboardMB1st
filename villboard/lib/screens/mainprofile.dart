@@ -229,7 +229,7 @@ class _mainprofileState extends State<mainprofile> {
                       style: GoogleFonts.ptSans(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.black,
                       ),
                     ),
                     (SizedBox(width: 10)),
@@ -257,7 +257,7 @@ class _mainprofileState extends State<mainprofile> {
                       style: GoogleFonts.ptSans(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.black,
                       ),
                     ),
                     (SizedBox(width: 10)),
@@ -285,7 +285,7 @@ class _mainprofileState extends State<mainprofile> {
                       style: GoogleFonts.ptSans(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.black,
                       ),
                     ),
                     (SizedBox(width: 10)),
@@ -313,7 +313,7 @@ class _mainprofileState extends State<mainprofile> {
                       style: GoogleFonts.ptSans(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.black,
                       ),
                     ),
                     (SizedBox(width: 10)),
@@ -341,7 +341,7 @@ class _mainprofileState extends State<mainprofile> {
                       style: GoogleFonts.ptSans(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.black,
                       ),
                     ),
                     (SizedBox(width: 10)),
@@ -359,9 +359,12 @@ class _mainprofileState extends State<mainprofile> {
                     fontSize: 19,
                   ),
                 ),
-                 SizedBox(height: 25),
-                  Center(
-                    child: FlatButton(
+                 SizedBox(height: 25,),
+                 Center(
+                    child: ButtonTheme(
+                    minWidth: 250,
+                    height: 50,
+                    child: RaisedButton(
                       color: Colors.green,
                       textColor: Colors.white,
                       onPressed: (){
@@ -374,6 +377,7 @@ class _mainprofileState extends State<mainprofile> {
                       child: Text("Add a member of the house"),
                     ),
                   ),
+                 ),
               ],
             ),
           )

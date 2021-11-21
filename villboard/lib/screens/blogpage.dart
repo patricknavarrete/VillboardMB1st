@@ -21,7 +21,7 @@ class _AddBlogState extends State<AddBlog> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: greenColorsLight,
+          backgroundColor: greenColor,
           elevation: 0,
           title: Text('Add Post'),
           centerTitle: true,
@@ -35,10 +35,10 @@ class _AddBlogState extends State<AddBlog> {
           children: <Widget>[
             titleTextField(),
             bodyTextField(),
-            SizedBox(height: 25),
+            SizedBox(height: 20),
             Container(
               height: 50,
-              width: 20,
+              width: 15,
               padding: EdgeInsets.only(left: 45, right: 20),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey, width: 1),
@@ -83,7 +83,7 @@ class _AddBlogState extends State<AddBlog> {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.teal,
+              color: Colors.green,
             ),
           ),
           focusedBorder: OutlineInputBorder(
@@ -96,7 +96,7 @@ class _AddBlogState extends State<AddBlog> {
           prefixIcon: IconButton(
               icon: Icon(
                 Icons.image,
-                color: Colors.teal,
+                color: Colors.green,
               ),
               onPressed: () {}),
         ),
@@ -139,7 +139,7 @@ class _AddBlogState extends State<AddBlog> {
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.teal,
+          color: Colors.green,
         ),
         child: Center(
             child: Text('Add Blog',

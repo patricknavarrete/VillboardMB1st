@@ -32,7 +32,7 @@ class _loginscreenState extends State<loginscreen> {
               height: MediaQuery.of(context).size.height * 0.4,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [greenColor, greenColorsLight],
+                    colors: [greenColor, greenColor],
                     end: Alignment.bottomCenter,
                     begin: Alignment.topCenter),
                 borderRadius:
@@ -101,7 +101,7 @@ class _loginscreenState extends State<loginscreen> {
                     ),
                   ),
                   Positioned(
-                    height: 465,
+                    height: 500,
                     right: 85,
                     child: Container(
                       child: Center(
@@ -173,18 +173,19 @@ class _loginscreenState extends State<loginscreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 50),
                   ButtonTheme(
-                    minWidth: 300,
+                    minWidth: 200,
+                    height: 50,
                     child: RaisedButton(
                       child: Text(
                         'Login',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 19),
                       ),
-                      color: greenColorsLight,
+                      color: greenColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 10.0,
                       onPressed: () {
@@ -219,7 +220,17 @@ class _loginscreenState extends State<loginscreen> {
 
                               await StorageUtil.setemail(em);
 
-                              // print(store['lastName']);
+                                if(store['petField'].isEmpty){
+                                  print('patrick');
+                                } else {
+                              var pf = store ['petField'][0]['petName'];
+                              await StorageUtil.setpetField(pf);
+                              var pb = store ['petField'][0]['petBreed'];
+                              await StorageUtil.setpetField(pb);
+                                }
+                             
+
+                              // print(store['petField'][0]['petName']);
                               // Shared Preference
 
                               Navigator.push(

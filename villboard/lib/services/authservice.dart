@@ -26,11 +26,27 @@ class AuthService {
     }
   }
 
-  addUser(email,firstName,lastName,middleInitial,address,phoneNumber,password) async {
-    return await dio.post('https://villauth.herokuapp.com/addUser',
-          data: {"email": email, "firstName":firstName, "lastName": lastName,"middleInitial": middleInitial ,"address": address,"phoneNumber":phoneNumber, "password": password }, 
+
+  
+
+  addUser(formData) async {
+    try{
+    return await dio.post('https://villauth.herokuapp.com/adduser',
+          data: formData, 
           options: Options(contentType: Headers.formUrlEncodedContentType));
-  }
+            } on DioError catch (e) {
+      Fluttertoast.showToast(
+        msg: e.response.data['msg'],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
+    
+   }  
+  
 
   
   
@@ -39,10 +55,10 @@ getinfo(token) async {
   return await dio.get('https://villauth.herokuapp.com/getinfo');
 }
 
-addSuggestion(name,suggestions) async {
+addSuggestion(aName,suggestions) async {
    try{
     return await dio.post('https://villauth.herokuapp.com/addSuggestion',
-       data: {"name": name,"suggestions":suggestions},
+       data: {"aName": aName,"suggestions":suggestions},
        options: Options(contentType: Headers.formUrlEncodedContentType));
 
        } on DioError catch (e) {
@@ -55,8 +71,68 @@ addSuggestion(name,suggestions) async {
         fontSize: 16.0
       );
     }
-    
+  }
+
+  addReservation(rFirstName,rLastName,rAddress,rPhoneNumber,venue,reservationTime,reservationDate,email) async {
+   try{
+    return await dio.post('https://villauth.herokuapp.com/addReservation',
+       data: {"rFirstName": rFirstName,"rLastName":rLastName, "rAddress": rAddress, "rPhoneNumber":rPhoneNumber,"venue": venue,"reservationTime": reservationTime,"reservationDate":reservationDate,"email":email},
+       options: Options(contentType: Headers.formUrlEncodedContentType));
+
+       } on DioError catch (e) {
+      Fluttertoast.showToast(
+        msg: e.response.data['msg'],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
   }  
+
+  addCar(cFirstName,cLastName,cAddress,cPhoneNumber,vehicleModel,plateNumber,email) async {
+   try{
+    return await dio.post('https://villauth.herokuapp.com/addCar',
+       data: {"cFirstName": cFirstName,"cLastName":cLastName, "cAddress": cAddress, "cPhoneNumber":cPhoneNumber,"vehicleModel": vehicleModel,"plateNumber": plateNumber,"email":email},
+       options: Options(contentType: Headers.formUrlEncodedContentType));
+
+       } on DioError catch (e) {
+      Fluttertoast.showToast(
+        msg: e.response.data['msg'],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
+  }  
+
+  addPet(pFirstName,pLastName,pAddress,pPhoneNumber,petName,petBreed,email) async {
+   try{
+    return await dio.post('https://villauth.herokuapp.com/addPet',
+       data: {"pFirstName": pFirstName,"pLastName":pLastName, "pAddress": pAddress, "pPhoneNumber":pPhoneNumber,"petName": petName,"petBreed": petBreed,"email":email},
+       options: Options(contentType: Headers.formUrlEncodedContentType));
+
+       } on DioError catch (e) {
+      Fluttertoast.showToast(
+        msg: e.response.data['msg'],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
+  }  
+
+postAnnouncement(postField,postCaption,postCategory,photoUrl) async {
+    return await dio.post('https://villauth.herokuapp.com/postAnnouncement',
+       data: {"postField": postField,"postCaption": postCaption, "postCategory": postCategory, "photoUrl": photoUrl },
+       options: Options(contentType: Headers.formUrlEncodedContentType));
+}
+
 
 changepass(email,password,newpass)async{
   try {

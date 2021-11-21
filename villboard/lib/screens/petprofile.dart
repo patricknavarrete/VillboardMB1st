@@ -18,15 +18,18 @@ class _petprofileState extends State<petprofile> {
   String lname = StorageUtil.getlastName() ?? '';
   String ad = StorageUtil.getaddress() ?? '';
   
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(children: <Widget>[
           Padding(
+
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+
           Center(
             child: CircleAvatar(
                 radius: 60,

@@ -14,7 +14,7 @@ class _ChatAdminState extends State<ChatAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: greenColorsLight,
+          backgroundColor: greenColor,
           elevation: 0,
           title: Text('Chat Admin'),
           centerTitle: true,
@@ -77,9 +77,9 @@ class _ChatAdminState extends State<ChatAdmin> {
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.teal,
+          color: Colors.green,
         ),
-        child: Center(child: Text('Send',style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold))),
+        child: Center(child: Text('Send',style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold))),
       ),
       
     );

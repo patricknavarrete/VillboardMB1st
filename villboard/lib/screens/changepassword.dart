@@ -98,15 +98,18 @@ class _changepasswordState extends State<changepassword> {
                         newpass = val;
                       }),
                 ),
+
                 SizedBox(height: 25),
                 Center(
                   child: ButtonTheme(
-                    minWidth: 300,
+                    minWidth: 200,
+                    height: 50,
                     child: RaisedButton(
                         child: Text('Submit'),
-                        color: greenColorsLight,
+                        color: Colors.green,
+                        textColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 10.0,
                         onPressed: () {
@@ -119,7 +122,7 @@ class _changepasswordState extends State<changepassword> {
                                 gravity: ToastGravity.BOTTOM,
                                 backgroundColor: Colors.green,
                                 textColor: Colors.white,
-                                fontSize: 16.0);
+                                fontSize: 15.0);
                           });
                         }),
                   ),

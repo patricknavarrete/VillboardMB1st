@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:villboard/services/FadeAnimation.dart';
 import 'package:villboard/services/color.dart';
@@ -6,6 +10,9 @@ import 'package:villboard/services/pallete.dart';
 import 'package:villboard/services/authservice.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:villboard/screens/login.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
 
 class register extends StatefulWidget {
   @override
@@ -14,6 +21,32 @@ class register extends StatefulWidget {
 
 class _registerState extends State<register> {
   bool isChecked = false;
+
+  File image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Widget imageProfile() {
+    return Stack(
+      children: <Widget>[
+        CircleAvatar(
+            radius: 60,
+            backgroundImage: image == null
+                ? AssetImage("images/logo.png")
+                : FileImage(File(image.path)))
+      ],
+    );
+  }
 
   var email,
       firstName,
@@ -40,7 +73,7 @@ class _registerState extends State<register> {
               height: MediaQuery.of(context).size.height * 0.4,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [greenColor, greenColorsLight],
+                    colors: [greenColor, greenColor],
                     end: Alignment.bottomCenter,
                     begin: Alignment.topCenter),
                 borderRadius:
@@ -109,7 +142,7 @@ class _registerState extends State<register> {
                     ),
                   ),
                   Positioned(
-                    height: 465,
+                    height: 500,
                     right: 65,
                     child: Container(
                       child: Center(
@@ -148,8 +181,12 @@ class _registerState extends State<register> {
                               ]),
                           child: Column(
                             children: <Widget>[
+                              imageProfile(),
+                              IconButton(
+                                  icon: Icon(Icons.photo,
+                                      color: greenColor, size: 50),
+                                  onPressed: () => pickImage()),
                               Container(
-                                padding: EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(color: Colors.grey[100]),
@@ -306,45 +343,76 @@ class _registerState extends State<register> {
                         ),
                       ),
                       SizedBox(height: 25),
-                       GestureDetector(
-                    onTap: () {
-
-                    },
-                    child: Container(
-                      child: Text('Terms and Conditions',
-                          style: GoogleFonts.ptSans(
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                            color: greenColor,
-                          )),
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom:
-                                  BorderSide(width: 1, color: Colors.green))),
-                    ),
-                  ),
-                  SizedBox(height: 25),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          child: Text('Terms and Conditions',
+                              style: GoogleFonts.ptSans(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                color: greenColor,
+                              )),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      width: 1, color: Colors.green))),
+                        ),
+                      ),
+                      SizedBox(height: 25),
                       ButtonTheme(
-                        minWidth: 300,
+                        minWidth: 200,
+                        height: 50,
                         child: RaisedButton(
-                            child: Text('Register'),
-                            color: greenColorsLight,
+                            child: Text(
+                              'Register',
+                            ),
+                            textColor: Colors.white,
+                            color: greenColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             elevation: 10.0,
-                            onPressed: () {
+                            onPressed: () async {
                               if (_form.currentState.validate()) {
+                                var formData = FormData.fromMap({
+                                  "email": email,
+                                  "firstName": firstName,
+                                  "lastName": lastName,
+                                  "middleInitial": middleInitial,
+                                  "address": address,
+                                  "phoneNumber": phoneNumber,
+                                  "password": password
+                                });
+
+                             // adding photo to the formdata
+                                if (image != null) {
+                                  print('image not null');
+                                  var fileName = image.path.split('/').last;
+                                  formData.files.add(
+                                    MapEntry(
+                                        "profilePicture",
+                                        await MultipartFile.fromFile(image.path,
+                                            filename: fileName,
+                                            contentType: new MediaType(
+                                              lookupMimeType(fileName)
+                                                  .split('/')[0],
+                                              lookupMimeType(fileName)
+                                                  .split('/')[1],
+                                            ))),
+                                  );
+                                } else {
+                                  formData.fields
+                                    ..add(MapEntry(
+                                      "profilePicture",
+                                      "",
+                                    ));
+                                  print('no imageee');
+                                }
                                 AuthService()
                                     .addUser(
-                                        email,
-                                        firstName,
-                                        lastName,
-                                        middleInitial,
-                                        address,
-                                        phoneNumber,
-                                        password)
-                                    .then((val) {
+                                  formData,
+                                )
+                                    .then((val) async {
                                   Fluttertoast.showToast(
                                       msg: val.data['msg'],
                                       toastLength: Toast.LENGTH_SHORT,

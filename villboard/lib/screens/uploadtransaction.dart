@@ -42,7 +42,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.green,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -59,14 +59,15 @@ class _uploadtransactionState extends State<uploadtransaction> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
+
               children: [
                 SizedBox(
                   height: 20,
                 ),
                 Image.asset(
                   'images/logo_vb.png',
-                  height: 50,
-                  width: 50,
+                  height: 100,
+                  width: 100,
                 ),
                 SizedBox(
                   height: 10,
@@ -78,10 +79,6 @@ class _uploadtransactionState extends State<uploadtransaction> {
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "Home owner and payment information",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -89,7 +86,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: TextFormField(
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -98,7 +95,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         prefixIcon: Icon(
                           Icons.person,
                           size: 30,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         labelText: "First Name",
                         labelStyle: TextStyle(
@@ -112,7 +109,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: TextFormField(
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -121,7 +118,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         prefixIcon: Icon(
                           Icons.person,
                           size: 30,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         labelText: "Last Name",
                         labelStyle: TextStyle(
@@ -135,7 +132,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: TextFormField(
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -144,11 +141,11 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         prefixIcon: Icon(
                           Icons.location_on,
                           size: 30,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         labelText: "Address",
                         labelStyle: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           color: Colors.grey[400],
                           fontWeight: FontWeight.w800,
                         )),
@@ -158,7 +155,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: TextFormField(
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -167,7 +164,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         prefixIcon: Icon(
                           Icons.email,
                           size: 30,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         labelText: "Email Address",
                         labelStyle: TextStyle(
@@ -181,7 +178,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: TextFormField(
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -190,7 +187,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         prefixIcon: Icon(
                           Icons.phone,
                           size: 30,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         labelText: "Phone Number",
                         labelStyle: TextStyle(
@@ -204,7 +201,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: TextFormField(
                     style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -213,7 +210,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         prefixIcon: Icon(
                           Icons.receipt,
                           size: 30,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         labelText: "Reference Number",
                         labelStyle: TextStyle(
@@ -223,20 +220,52 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         )),
                   ),
                 ),
+
+                SizedBox(height: 25),
+                Container(
+                  height: 50,
+                  width: 260,
+                  padding: EdgeInsets.only(left: 45, right: 16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: DropdownButton(
+                      value: valueChoose,
+                      hint: Text("Type of Transaction"),
+                      icon: Icon(Icons.arrow_drop_down),
+                      dropdownColor: Colors.white,
+                      onChanged: (newValue) {
+                        setState(() {
+                          valueChoose = newValue;
+                        });
+                      },
+                      items: listItem.map((valueItem) {
+                        return DropdownMenuItem(
+                          value: valueItem,
+                          child: Text(valueItem),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 25),
                 Text(
                   _dateTime == null
                       ? 'Nothing has been picked yet'
-                      : _dateTime.toString(),
+                      : _dateTime.month.toString() +"/"+ _dateTime.day.toString() +"/"+ _dateTime.year.toString(),
                   style: TextStyle(
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
-                SizedBox(height: 25),
+
+                SizedBox(height: 20),
                 SizedBox(
                   height: 50,
-                  width: 100,
+                  width: 200,
                   child: FlatButton(
                     color: Colors.green,
                     textColor: Colors.white,
@@ -261,39 +290,25 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   ),
                 ),
                 SizedBox(height: 25),
-                Container(
-                  height: 55,
-                  width: 280,
-                  padding: EdgeInsets.only(left: 45, right: 16),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
-                    borderRadius: BorderRadius.circular(15),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: FlatButton(
+                  color: Colors.green,
+                  textColor: Colors.white,
+                  onPressed: () {
+                   ;
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: DropdownButton(
-                      value: valueChoose,
-                      hint: Text("Type of Transaction"),
-                      icon: Icon(Icons.arrow_drop_down),
-                      dropdownColor: Colors.green,
-                      onChanged: (newValue) {
-                        setState(() {
-                          valueChoose = newValue;
-                        });
-                      },
-                      items: listItem.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
+                  child: Text("Upload Image"),
                 ),
+              ),
                 SizedBox(height: 25),
                 SizedBox(
                   height: 50,
-                  width: double.infinity,
+                  width: 200,
                   child: FlatButton(
                     color: Colors.green,
                     textColor: Colors.white,

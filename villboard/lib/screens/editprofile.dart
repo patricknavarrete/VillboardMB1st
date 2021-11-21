@@ -14,7 +14,6 @@ class _editprofileState extends State<editprofile> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        brightness: Brightness.light,
         backgroundColor: Colors.green,
         leading: IconButton(
           onPressed: () {

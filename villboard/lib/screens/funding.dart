@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:villboard/services/dataset2.dart';
+import 'package:villboard/screens/homepage.dart';
 
 
 
@@ -9,7 +10,7 @@ class Funding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green,
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -29,7 +30,7 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: postList.length,
+      itemCount: postList.length.compareTo(0),
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
@@ -37,8 +38,12 @@ class PostWidget extends StatelessWidget {
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.greenAccent,
-            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: Colors.black,
+              width: 1,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

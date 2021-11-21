@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:villboard/services/dataset.dart';
+import 'package:villboard/services/authservice.dart';
+import 'package:villboard/screens/homepage.dart';
 
 
 
-class Events extends StatelessWidget {
+
+
+
+class Events extends StatefulWidget {
+  @override
+  State<Events> createState() => _EventsState();
+}
+
+class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green,
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -29,7 +39,7 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: postList.length,
+      itemCount: postListE.length,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
@@ -37,8 +47,12 @@ class PostWidget extends StatelessWidget {
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.greenAccent,
-            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: Colors.black,
+              width: 1,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +66,7 @@ class PostWidget extends StatelessWidget {
                         width: 48,
                         child: CircleAvatar(
                           backgroundImage:
-                              NetworkImage(postList[index].profile),
+                              NetworkImage(postListE[index].profile),
                           radius: 26,
                         ),
                       ),
@@ -62,7 +76,7 @@ class PostWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              postList[index].name,
+                              postListE[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 16),
                             ),
@@ -77,7 +91,7 @@ class PostWidget extends StatelessWidget {
                 height: 15,
               ),
               Text(
-                postList[index].title,
+                postListE[index].title,
                 style: TextStyle(color: Colors.black, fontSize: 16),
               ),
               SizedBox(
@@ -90,7 +104,7 @@ class PostWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                          image: NetworkImage(postList[index].image),
+                          image: NetworkImage(postListE[index].image),
                           fit: BoxFit.cover)),
                 ),
               ),

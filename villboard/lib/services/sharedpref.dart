@@ -10,6 +10,8 @@ class StorageUtil {
   static const IDmiddleInitial = 'middleInitial';
   static const IDaddress = 'address';
   static const IDphoneNumber = 'phoneNumber';
+  static const IDpetField = 'petField';
+  static const IDcarField = 'carField';
 
   static Future init() async {
     preferences = await SharedPreferences.getInstance();
@@ -44,6 +46,16 @@ class StorageUtil {
       await preferences.setString(IDemail, email);
 
   static String getemail() => preferences.getString(IDemail);
+
+   static Future setpetField(String petField) async =>
+      await preferences.setString(IDpetField, petField);
+
+  static String getpetField() => preferences.getString(IDpetField);
+
+   static Future setcarField(String carField) async =>
+      await preferences.setString(IDcarField, carField);
+
+  static String getcarField() => preferences.getString(IDcarField);
 
 
 }

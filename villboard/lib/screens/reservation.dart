@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
+import 'package:villboard/services/authservice.dart';
+
 
 class reservation extends StatefulWidget {
   reservation({Key key}) : super(key: key);
+  DateTime _selectedDate;
 
   @override
   _reservationState createState() => _reservationState();
@@ -10,6 +14,11 @@ class reservation extends StatefulWidget {
 class _reservationState extends State<reservation> {
 
   TextEditingController controller;
+
+   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
+  var rFirstName,rLastName,rAddress,rPhoneNumber,venue,reservationTime,reservationDate,email;
+
 
   submitAmenities(BuildContext context) {
     return showDialog(
@@ -31,12 +40,28 @@ class _reservationState extends State<reservation> {
           );
         });
   }
+
+
     String valueChoose;
+    DateTimeRangePicker dateAndTime;
     List listItem = [
     "Club House",
     "Swimming Pool",
     "Basketball Court",
   ];
+  String newTime;
+  List listTime = [
+    "6:00am - 8:00am",
+    "8:00am - 10:00am",
+    "10:00am - 12:00pm",
+    "12:00pm - 3:00pm",
+    "3:00pm - 5:00pm",
+  ];
+
+  DateTime selectedDate = DateTime.now();
+  final firstdate = DateTime(2010, 1);
+  final lastdate = DateTime(2022, 1);
+
   @override
   Widget build(BuildContext context) {
  return Scaffold(
@@ -44,7 +69,7 @@ class _reservationState extends State<reservation> {
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.light,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.green,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -63,12 +88,136 @@ class _reservationState extends State<reservation> {
               child: Column(
                 children: [
                   SizedBox(height: 20,),
-                  Image.asset('images/logo_vb.png', height: 50, width: 50,),
+                  Image.asset('images/logo_vb.png', height: 100, width: 100,),
                   SizedBox(height: 10,),
                   Text("Reservation Form",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                   SizedBox(height: 20,),
-                  Text("Home Owner Information",style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
+                  Text("Home Owner Information",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                   SizedBox(height: 20,),
+
+                  SizedBox(height: 20),
+                  Container(
+                      child: Form(
+                          key: _form,
+                          child: Padding(
+                            padding: EdgeInsets.all(30.0),
+                            child: Column(
+                              children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    child: TextFormField(
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.person, size: 30,color: Colors.black,),
+                        labelText: "First Name",
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[400],
+                          fontWeight: FontWeight.w800,
+                        )
+                      ),
+                       onChanged: (val) {
+                             rFirstName = val;
+                           },
+                    ),
+                  ),
+                   Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    child: TextFormField(
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.person, size: 30,color: Colors.black,),
+                        labelText: "Last Name",
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[400],
+                          fontWeight: FontWeight.w800,
+                        )
+                      ),
+                      onChanged: (val) {
+                             rLastName = val;
+                           },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    child: TextFormField(
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.email, size: 30,color: Colors.black,),
+                        labelText: "Email Address",
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[400],
+                          fontWeight: FontWeight.w800,
+                        )
+                      ),
+                      onChanged: (val) {
+                             email = val;
+                           },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    child: TextFormField(
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.location_on, size: 30,color: Colors.black,),
+                        labelText: "Address",
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[400],
+                          fontWeight: FontWeight.w800,
+                        )
+                      ),
+                      onChanged: (val) {
+                             rAddress = val;
+                           },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    child: TextFormField(
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.phone, size: 30,color: Colors.black,),
+                        labelText: "Phone",
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[400],
+                          fontWeight: FontWeight.w800,
+                        )
+                      ),
+                      onChanged: (val) {
+                             rPhoneNumber = val;
+                           },
+                    ),
+                  ),
                   Container(
                     height: 55,
                     width: 280,
@@ -80,141 +229,90 @@ class _reservationState extends State<reservation> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: DropdownButton(value: valueChoose,
-                      hint: Text("Select Venue"),
-                      icon: Icon(Icons.arrow_drop_down),
-                      dropdownColor: Colors.green,
-                      onChanged: (newValue){
-                        setState((){
-                          valueChoose = newValue;
-                        });
-                      },
-                      items: listItem.map((valueItem){
+                        hint: Text("Select Venue"),
+                        icon: Icon(Icons.arrow_drop_down),
+                        dropdownColor: Colors.white,
+                        onChanged: (val) {
+                             venue = val;
+                           },
+                        // onChanged: (newValue){
+                        //   setState((){
+                        //     valueChoose = newValue;
+                        //   });
+                        // },
+                        items: listItem.map((valueItem){
                           return DropdownMenuItem( value: valueItem,
-                          child: Text(valueItem),
+                            child: Text(valueItem),
                           );
-                      }).toList(),
-                      
-                       ),
+                        }).toList(),
+                        
+
+                      ),
                     ),
+                    
                   ),
-                    SizedBox(height: 25),
-                SizedBox(
-                  height: 50,
-                  width: 100,
-                  child: FlatButton(
-                    color: Colors.green,
-                    textColor: Colors.white,
-                    onPressed: () {
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text("Date"),
-                  ),
-                ),
                   SizedBox(height: 25),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                    child: TextFormField(
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.person, size: 30,color: Colors.green,),
-                        labelText: "First Name",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )
+                    height: 55,
+                    width: 280,
+                    padding: EdgeInsets.only(left:53, right: 16),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width:1),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: DropdownButton(value: newTime,
+                        hint: Text("Select Time"),
+                        icon: Icon(Icons.arrow_drop_down),
+                        dropdownColor: Colors.white,
+                         onChanged: (val) {
+                             reservationTime = val;
+                           },
+                        // onChanged: (newValue){
+                        //   setState((){
+                        //     newTime = newValue;
+                        //   });
+                        // },
+                        items: listTime.map((valueItem){
+                          return DropdownMenuItem( value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+
                       ),
                     ),
                   ),
-                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                    child: TextFormField(
-                      style: TextStyle(
-                        color: Colors.green,
+                  SizedBox(height: 25),
+                  Text(
+                    selectedDate == null
+                        ? 'Please choose date of Reservation'
+                        :  'Selected Date: ' + '$selectedDate'.split(' ')[0],
+                    style: TextStyle(
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 20),
+                  ),
+                  
+
+                  SizedBox(height: 20),
+                  SizedBox(
+                    height: 50,
+                    width: 200,
+                    child: RaisedButton(
+                      color: Colors.green,
+                      textColor: Colors.white,
+                      onPressed: () => _openDatePicker(context),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.person, size: 30,color: Colors.green,),
-                        labelText: "Last Name",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )
-                      ),
+                      child: Text("Choose Date"),
+                      
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                    child: TextFormField(
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.email, size: 30,color: Colors.green,),
-                        labelText: "Email Address",
-                        labelStyle: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                    child: TextFormField(
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.location_on, size: 30,color: Colors.green,),
-                        labelText: "Address",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                    child: TextFormField(
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.phone, size: 30,color: Colors.green,),
-                        labelText: "Phone",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )
-                      ),
-                    ),
-                  ),
+
                   SizedBox(height:25),
-                  SizedBox(height: 50,width: double.infinity,
+                  SizedBox(height: 50,width: 200,
                   child: FlatButton(
                     color: Colors.green,
                     textColor: Colors.white,
@@ -225,12 +323,33 @@ class _reservationState extends State<reservation> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text("Submit"),
-                  ),)
+                  ),
+                  ),
                 ],
               ),
             ),
           ),
-      ),
+                  )],
+          ),
+        ),
+     ),
+    ),
+  );
+
+  }
+  _openDatePicker(BuildContext context) async{
+    final DateTime date = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: firstdate,
+      lastDate: lastdate,
     );
+     if (date !=null){
+       setState(() {
+         selectedDate = date;
+       });
+     }
   }
 }
+
+

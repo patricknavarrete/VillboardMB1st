@@ -14,7 +14,7 @@ class suggestionbox extends StatefulWidget {
 class _suggestionboxState extends State<suggestionbox> {
   bool isChecked = false;
 
-  var name, suggestions;
+  var aName, suggestions;
 
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
@@ -53,10 +53,10 @@ class _suggestionboxState extends State<suggestionbox> {
                         style: TextStyle(
                             fontSize: 30.0,
                             fontWeight: FontWeight.w900,
-                            color: Colors.green),
+                            color: Colors.black),
                       ),
                       SizedBox(
-                        height: 40.0,
+                        height: 30.0,
                       ),
                       Container(
                         child: Form(
@@ -65,13 +65,11 @@ class _suggestionboxState extends State<suggestionbox> {
                             padding: EdgeInsets.all(30.0),
                             child: Column(
                               children: <Widget>[
-                                FadeAnimation(
-                                  1.8,
                                   Container(
                                     padding: EdgeInsets.all(5),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(12),
                                         boxShadow: [
                                           BoxShadow(
                                               color: Color.fromRGBO(
@@ -97,7 +95,7 @@ class _suggestionboxState extends State<suggestionbox> {
                                                   color: Colors.grey[400]),
                                             ),
                                             onChanged: (val) {
-                                              name = val;
+                                               aName = val;
                                             },
                                           ),
                                         ),
@@ -123,16 +121,16 @@ class _suggestionboxState extends State<suggestionbox> {
                                         ),
                                         SizedBox(height: 25),
                                         Center(
-                                          child: Container(
                                             child: ButtonTheme(
-                                              minWidth: 300,
+                                              minWidth: 200,
+                                              height: 50,
                                               child: RaisedButton(
                                                   child: Text('Submit'),
-                                                  color: greenColorsLight,
+                                                  color: greenColor,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            16),
+                                                    BorderRadius.circular(
+                                                        12),
                                                   ),
                                                   elevation: 10.0,
                                                   onPressed: () {
@@ -140,20 +138,20 @@ class _suggestionboxState extends State<suggestionbox> {
                                                         .validate()) {
                                                       AuthService()
                                                           .addSuggestion(
-                                                              name, suggestions)
+                                                          aName, suggestions)
                                                           .then((val) {
                                                         Fluttertoast.showToast(
                                                             msg:
-                                                                val.data['msg'],
+                                                            val.data['msg'],
                                                             toastLength: Toast
                                                                 .LENGTH_SHORT,
                                                             gravity:
-                                                                ToastGravity
-                                                                    .BOTTOM,
+                                                            ToastGravity
+                                                                .BOTTOM,
                                                             backgroundColor:
-                                                                Colors.green,
+                                                            Colors.green,
                                                             textColor:
-                                                                Colors.white,
+                                                            Colors.white,
                                                             fontSize: 16.0);
                                                       });
                                                     } else {
@@ -162,11 +160,9 @@ class _suggestionboxState extends State<suggestionbox> {
                                                   }),
                                             ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -176,7 +172,7 @@ class _suggestionboxState extends State<suggestionbox> {
                   ),
                 ),
               ],
-            ),
+            ), 
           ],
         ),
       ),

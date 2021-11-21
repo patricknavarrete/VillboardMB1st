@@ -2,14 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:villboard/services/dataset.dart';
+import 'package:villboard/services/authservice.dart';
+import 'package:villboard/screens/homepage.dart';
 
 
+   
 
-class Announcement extends StatelessWidget {
+class Announcement extends StatefulWidget {
+
+  @override
+  State<Announcement> createState() => _AnnouncementState();
+}
+
+
+class _AnnouncementState extends State<Announcement> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green,
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -24,7 +35,11 @@ class Announcement extends StatelessWidget {
   }
 }
 
-class PostWidget extends StatelessWidget {
+class PostWidget extends StatefulWidget {
+  @override
+  State<PostWidget> createState() => _PostWidgetState();
+}
+class _PostWidgetState extends State<PostWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -37,8 +52,12 @@ class PostWidget extends StatelessWidget {
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: Colors.black,
+              width: 1,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

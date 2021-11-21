@@ -40,21 +40,21 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text('Profile Page', style: TextStyle(color: Colors.orange)),
+            title: Text('Profile Page', style: TextStyle(color: Colors.black)),
             elevation: 0,
-            backgroundColor: greenColorsLight,
+            backgroundColor: greenColor,
             bottom: TabBar(
             controller: controller,
             isScrollable: true,
             indicatorColor: Colors.green,
             indicatorWeight: 5,
             labelStyle: TextStyle(),
-            labelColor: Colors.black,
+            labelColor: Colors.white,
             tabs: [
-            Tab(icon: Icon(Icons.person, color: Colors.orange), text: 'Main Profile'),
-            Tab(icon: Icon(Icons.pets,color: Colors.orange ), text: 'Pet Profile'),
-            Tab(icon: Icon(Icons. car_repair,color: Colors.orange), text:'Car Profile', ),
-            Tab(icon: Icon(Icons.lock, color: Colors.orange), text: 'ChangePassword'),
+            Tab(icon: Icon(Icons.person, color: Colors.black), text: 'Main Profile'),
+            Tab(icon: Icon(Icons.pets,color: Colors.black ), text: 'Pet Profile'),
+            Tab(icon: Icon(Icons. car_repair,color: Colors.black), text:'Car Profile', ),
+            Tab(icon: Icon(Icons.lock, color: Colors.black), text: 'ChangePassword'),
           ],
           ),
           ),
