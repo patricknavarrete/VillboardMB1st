@@ -1,4 +1,18 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:villboard/screens/homepage.dart';
+import 'dart:io';
+import 'dart:async';
+import 'package:dio/dio.dart';
+import 'package:villboard/services/authservice.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
+
+import '../services/authservice.dart';
 
 class uploadtransaction extends StatefulWidget {
   uploadtransaction({Key key}) : super(key: key);
@@ -8,17 +22,42 @@ class uploadtransaction extends StatefulWidget {
 }
 
 class _uploadtransactionState extends State<uploadtransaction> {
+  var uFirstName,
+      uLastName,
+      uAddress,
+      uPhoneNumber,
+      refNumber,
+      userId,
+      typeTransaction,
+      proofPayment;
 
-    TextEditingController controller;
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
+  File image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  TextEditingController controller;
 
   submitTransaction(BuildContext context) {
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Successfully Uploaded Monthly Maintenance Transaction'),
-            content: Text('You would reveice an email confirmation for your Reference Number'),
-
+            title:
+                Text('Successfully Uploaded Monthly Maintenance Transaction'),
+            content: Text(
+                'You would reveice an email confirmation for your Reference Number'),
             actions: <Widget>[
               MaterialButton(
                 elevation: 0,
@@ -59,7 +98,6 @@ class _uploadtransactionState extends State<uploadtransaction> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-
               children: [
                 SizedBox(
                   height: 20,
@@ -220,7 +258,6 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         )),
                   ),
                 ),
-
                 SizedBox(height: 25),
                 Container(
                   height: 50,
@@ -255,13 +292,16 @@ class _uploadtransactionState extends State<uploadtransaction> {
                 Text(
                   _dateTime == null
                       ? 'Nothing has been picked yet'
-                      : _dateTime.month.toString() +"/"+ _dateTime.day.toString() +"/"+ _dateTime.year.toString(),
+                      : _dateTime.month.toString() +
+                          "/" +
+                          _dateTime.day.toString() +
+                          "/" +
+                          _dateTime.year.toString(),
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
-
                 SizedBox(height: 20),
                 SizedBox(
                   height: 50,
@@ -290,22 +330,6 @@ class _uploadtransactionState extends State<uploadtransaction> {
                   ),
                 ),
                 SizedBox(height: 25),
-              SizedBox(
-                height: 50,
-                width: 200,
-                child: FlatButton(
-                  color: Colors.green,
-                  textColor: Colors.white,
-                  onPressed: () {
-                   ;
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text("Upload Image"),
-                ),
-              ),
-                SizedBox(height: 25),
                 SizedBox(
                   height: 50,
                   width: 200,
@@ -313,7 +337,74 @@ class _uploadtransactionState extends State<uploadtransaction> {
                     color: Colors.green,
                     textColor: Colors.white,
                     onPressed: () {
-                      submitTransaction(context);
+                      ;
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text("Upload Image"),
+                  ),
+                ),
+                SizedBox(height: 25),
+                SizedBox(
+                  height: 50,
+                  width: 200,
+                  child: FlatButton(
+                    color: Colors.green,
+                    textColor: Colors.white,
+                    onPressed: () async {
+                      if (_form.currentState.validate()) {
+                        var formData = FormData.fromMap({
+                          "uFirstName": uFirstName,
+                          "uLastName": uLastName,
+                          "uAddress": uAddress,
+                          "uPhoneNumber": uPhoneNumber,
+                          "refNumber": refNumber,
+                          "userId": userId,
+                          "typeTransaction": typeTransaction,
+                          "photoUrl": photoUrl,
+                          "proofPayment": proofPayment,
+                          "pPending": "PENDING",
+                        });
+
+                        // adding photo to the formdata
+                        if (image != null) {
+                          print('image not null');
+                          var fileName = image.path.split('/').last;
+                          formData.files.add(
+                            MapEntry(
+                                "profilePicture",
+                                await MultipartFile.fromFile(image.path,
+                                    filename: fileName,
+                                    contentType: new MediaType(
+                                      lookupMimeType(fileName).split('/')[0],
+                                      lookupMimeType(fileName).split('/')[1],
+                                    ))),
+                          );
+                        } else {
+                          formData.fields
+                            ..add(MapEntry(
+                              "proofPayment",
+                              "",
+                            ));
+                          print('No Image');
+                        }
+                        AuthService()
+                            .addUser(
+                          formData,
+                        )
+                            .then((val) async {
+                          Fluttertoast.showToast(
+                              msg: val.data['msg'],
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        });
+                      } else {
+                        print("UnSuccessfull");
+                      }
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -329,3 +420,5 @@ class _uploadtransactionState extends State<uploadtransaction> {
     );
   }
 }
+
+class ImagePicker {}

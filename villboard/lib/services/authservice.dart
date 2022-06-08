@@ -101,6 +101,22 @@ class AuthService {
     }
   }
 
+  addPayment(formData) async {
+    try {
+      return await dio.post('https://villauth.herokuapp.com/addPayment',
+          data: formData,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } on DioError catch (e) {
+      Fluttertoast.showToast(
+          msg: e.response.data['msg'],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
   addCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel,
       plateNumber, email) async {
     try {
@@ -158,6 +174,36 @@ class AuthService {
           "postCaption": postCaption,
           "postCategory": postCategory,
           "photoUrl": photoUrl
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+  }
+
+  postPet(pFirstName, pLastName, pEmail, pAddress, pPhoneNumber, petName,
+      petBreed) async {
+    return await dio.post('https://villauth.herokuapp.com/postPet',
+        data: {
+          "pFirstName": pFirstName,
+          "pLastName": pLastName,
+          "pEmail": pEmail,
+          "pAddress": pAddress,
+          "pPhoneNumber": pPhoneNumber,
+          "petName": petName,
+          "petBreed": petBreed
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+  }
+
+  postCar(cFirstName, cLastName, cEmail, cAddress, cPhoneNumber, vehicleModel,
+      plateNumber) async {
+    return await dio.post('https://villauth.herokuapp.com/postCar',
+        data: {
+          "cFirstName": cFirstName,
+          "cLastName": cLastName,
+          "cEmail": cEmail,
+          "cAddress": cAddress,
+          "cPhoneNumber": cPhoneNumber,
+          "vehicleModel": vehicleModel,
+          "plateNumber": plateNumber
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }
