@@ -5,11 +5,6 @@ import 'package:villboard/services/dataset.dart';
 import 'package:villboard/services/authservice.dart';
 import 'package:villboard/screens/homepage.dart';
 
-
-
-
-
-
 class Events extends StatefulWidget {
   @override
   State<Events> createState() => _EventsState();

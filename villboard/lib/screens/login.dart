@@ -17,7 +17,7 @@ class loginscreen extends StatefulWidget {
 }
 
 class _loginscreenState extends State<loginscreen> {
-  var email, password, token, lastName, address;
+  var email, password, token, lastName, address, _id;
 
   var store;
 
@@ -181,7 +181,9 @@ class _loginscreenState extends State<loginscreen> {
                       child: Text(
                         'Login',
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 19),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 19),
                       ),
                       color: greenColor,
                       shape: RoundedRectangleBorder(
@@ -195,6 +197,10 @@ class _loginscreenState extends State<loginscreen> {
                             AuthService().getinfo(token).then((val) async {
                               //Printing firstName to console from Decodedtoken
                               store = val.data['decodedtoken'];
+
+                              var iD = store['_id'];
+
+                              await StorageUtil.set_id(iD);
 
                               var fname = store['firstName'];
 
@@ -216,19 +222,18 @@ class _loginscreenState extends State<loginscreen> {
 
                               await StorageUtil.setphoneNumber(pn);
 
-                              var em = store ['email'];
+                              var em = store['email'];
 
                               await StorageUtil.setemail(em);
 
-                                if(store['petField'].isEmpty){
-                                  print('patrick');
-                                } else {
-                              var pf = store ['petField'][0]['petName'];
-                              await StorageUtil.setpetField(pf);
-                              var pb = store ['petField'][0]['petBreed'];
-                              await StorageUtil.setpetField(pb);
-                                }
-                             
+                              if (store['petField'].isEmpty) {
+                                print('patrick');
+                              } else {
+                                var pf = store['petField'][0]['petName'];
+                                await StorageUtil.setpetField(pf);
+                                var pb = store['petField'][0]['petBreed'];
+                                await StorageUtil.setpetField(pb);
+                              }
 
                               // print(store['petField'][0]['petName']);
                               // Shared Preference

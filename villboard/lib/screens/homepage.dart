@@ -39,13 +39,17 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
-      
   TabController controller;
-  Future <void> temp() async {
+  Future<void> temp() async {
     postList.clear();
     postListE.clear();
     AuthService()
-        .postAnnouncement(postField, postCaption, postCategory, photoUrl,)
+        .postAnnouncement(
+      postField,
+      postCaption,
+      postCategory,
+      photoUrl,
+    )
         .then((val) {
       for (var i = 0; i < val.data.length; i++) {
         //if
@@ -55,26 +59,27 @@ class _DashboardState extends State<Dashboard>
             setState(() {
               postListE.add(new Post(
                 name: temp['postField'][0]['firstName'],
-                profile: temp['postField'][0]['profilePicture'],
+                profile: temp['photoUrl'],
+                // profile: temp['postField'][0]['profilePicture'],
                 // temp['postField'][0]['photoUrlProfile'],
                 title: temp['postCaption'],
                 image: temp['photoUrl'],
               ));
             });
-          }   else if (val.data[i]['postCategory'] == "Announcement"){
-               setState(() {
+          } else if (val.data[i]['postCategory'] == "Announcement") {
+            setState(() {
               postList.add(new Post(
-              name: temp['postField'][0]['firstName'],
-              profile: temp['photoUrl'],
-              // temp['postField'][0]['photoUrlProfile'],
-              title: temp['postCaption'],
-              image: temp['photoUrl'], 
+                name: temp['postField'][0]['firstName'],
+                profile: temp['photoUrl'],
+                // temp['postField'][0]['photoUrlProfile'],
+                title: temp['postCaption'],
+                image: temp['photoUrl'],
               ));
             });
-
           }
           print(val.data);
           print(val.data.length);
+          print(postListE);
         });
       }
     });

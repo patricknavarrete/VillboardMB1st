@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class StorageUtil {
   static SharedPreferences preferences;
 
-
   static const IDemail = 'email';
   static const IDfirstName = 'firstName';
   static const IDlastName = 'lastName';
@@ -12,6 +11,7 @@ class StorageUtil {
   static const IDphoneNumber = 'phoneNumber';
   static const IDpetField = 'petField';
   static const IDcarField = 'carField';
+  static const ID_id = '_id';
 
   static Future init() async {
     preferences = await SharedPreferences.getInstance();
@@ -37,25 +37,28 @@ class StorageUtil {
 
   static String getaddress() => preferences.getString(IDaddress);
 
-    static Future setphoneNumber(String phoneNumber) async =>
+  static Future setphoneNumber(String phoneNumber) async =>
       await preferences.setString(IDphoneNumber, phoneNumber);
 
   static String getphoneNumber() => preferences.getString(IDphoneNumber);
 
-      static Future setemail(String email) async =>
+  static Future setemail(String email) async =>
       await preferences.setString(IDemail, email);
 
   static String getemail() => preferences.getString(IDemail);
 
-   static Future setpetField(String petField) async =>
+  static Future setpetField(String petField) async =>
       await preferences.setString(IDpetField, petField);
 
   static String getpetField() => preferences.getString(IDpetField);
 
-   static Future setcarField(String carField) async =>
+  static Future setcarField(String carField) async =>
       await preferences.setString(IDcarField, carField);
 
   static String getcarField() => preferences.getString(IDcarField);
 
+  static Future set_id(String _id) async =>
+      await preferences.setString(ID_id, _id);
 
+  static String get_id() => preferences.getString(ID_id);
 }
