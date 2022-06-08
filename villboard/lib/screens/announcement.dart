@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:villboard/services/dataset.dart';
 import 'package:villboard/services/authservice.dart';
 import 'package:villboard/screens/homepage.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-
-   
+List<Post> postList = [];
 
 class Announcement extends StatefulWidget {
 
@@ -14,14 +14,54 @@ class Announcement extends StatefulWidget {
   State<Announcement> createState() => _AnnouncementState();
 }
 
-
 class _AnnouncementState extends State<Announcement> {
-  
+  Future<void> temp() async {
+    postList.clear();
+    AuthService()
+        .postAnnouncement(
+      postField,
+      postCaption,
+      postCategory,
+      photoUrl,
+    ).then((val) {
+      for (var i = 0; i < val.data.length; i++) {
+        //if
+        setState(() {
+          var temp = val.data[i];
+          if (val.data[i]['postCategory'] != "Events") {
+            setState(() {
+              postList.add(new Post(
+                name: temp['postField'][0]['firstName'],
+                profile: temp['photoUrl'],
+                // temp['postField'][0]['photoUrlProfile'],
+                title: temp['postCaption'],
+                image: temp['photoUrl'],
+              ));
+            });
+          }
+          print(val.data);
+          print(val.data.length);
+          print(postList);
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    temp();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
-      body: SingleChildScrollView(
+      body: LiquidPullToRefresh(
+        onRefresh: temp,
+        showChildOpacityTransition: false,
+        child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -30,8 +70,7 @@ class _AnnouncementState extends State<Announcement> {
             )
           ],
         ),
-      ),
-    );
+    )));
   }
 }
 

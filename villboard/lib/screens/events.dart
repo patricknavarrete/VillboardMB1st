@@ -3,7 +3,10 @@ import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:villboard/services/dataset.dart';
 import 'package:villboard/services/authservice.dart';
-import 'package:villboard/screens/homepage.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
+List<Post> postListE = [];
+var postField, postCaption, postCategory, photoUrl;
 
 class Events extends StatefulWidget {
   @override
@@ -11,11 +14,54 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
+
+  Future<void> temp() async {
+    postListE.clear();
+    AuthService()
+        .postAnnouncement(
+      postField,
+      postCaption,
+      postCategory,
+      photoUrl,
+    ).then((val) {
+      for (var i = 0; i < val.data.length; i++) {
+        //if
+        setState(() {
+          var temp = val.data[i];
+          if (val.data[i]['postCategory'] == "Events") {
+            setState(() {
+              postListE.add(new Post(
+                name: temp['postField'][0]['firstName'],
+                profile: temp['photoUrl'],
+                // profile: temp['postField'][0]['profilePicture'],
+                // temp['postField'][0]['photoUrlProfile'],
+                title: temp['postCaption'],
+                image: temp['photoUrl'],
+              ));
+            });
+          }
+          print(val.data);
+          print(val.data.length);
+          print(postListE);
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    temp();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
-      body: SingleChildScrollView(
+      body: LiquidPullToRefresh(
+        onRefresh: temp,
+        showChildOpacityTransition: false,
+        child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -25,7 +71,7 @@ class _EventsState extends State<Events> {
           ],
         ),
       ),
-    );
+      ));
   }
 }
 

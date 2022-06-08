@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:villboard/services/sharedpref.dart';
-
+import 'package:villboard/screens/homepage.dart';
 
 class carprofile extends StatefulWidget {
   const carprofile({ Key key }) : super(key: key);
@@ -12,24 +12,22 @@ class carprofile extends StatefulWidget {
 
 class _carprofileState extends State<carprofile> {
 
-    String pn = StorageUtil.getphoneNumber() ?? '';
+  String pn = StorageUtil.getphoneNumber() ?? '';
   String fname = StorageUtil.getfirstName() ?? '';
   String lname = StorageUtil.getlastName() ?? '';
   String ad = StorageUtil.getaddress() ?? '';
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(children: <Widget>[
-          Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+
+  Widget _carList(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Center(
             child: CircleAvatar(
-                radius: 60,
-                child: ClipOval(child: Image.asset('images/carcar.jpg'))),
+              backgroundImage: AssetImage('images/carcar.jpg'),
+              radius: 50.0,
+            ),
           ),
           SizedBox(height: 25),
           Text(
@@ -42,7 +40,7 @@ class _carprofileState extends State<carprofile> {
           ),
           SizedBox(height: 5),
           Text(
-            fname +" " + lname,
+            cFirstName +" " + cLastName,
             style: GoogleFonts.ptSans(
               fontSize: 19,
             ),
@@ -51,7 +49,7 @@ class _carprofileState extends State<carprofile> {
             height: 10,
           ),
           Text(
-           'Contact Number:',
+            'Contact Number:',
             style: GoogleFonts.ptSans(
               fontSize: 19,
               fontWeight: FontWeight.bold,
@@ -60,7 +58,7 @@ class _carprofileState extends State<carprofile> {
           ),
           SizedBox(height: 5),
           Text(
-            pn,
+            cPhoneNumber,
             style: GoogleFonts.ptSans(
               fontSize: 19,
             ),
@@ -78,7 +76,7 @@ class _carprofileState extends State<carprofile> {
           ),
           SizedBox(height: 5),
           Text(
-            ad,
+            cAddress,
             style: GoogleFonts.ptSans(
               fontSize: 19,
             ),
@@ -96,7 +94,7 @@ class _carprofileState extends State<carprofile> {
           ),
           SizedBox(height: 5),
           Text(
-            'ONER',
+            vehicleModel,
             style: GoogleFonts.ptSans(
               fontSize: 19,
             ),
@@ -114,12 +112,12 @@ class _carprofileState extends State<carprofile> {
           ),
           SizedBox(height: 5),
           Text(
-            'UV 123456',
+            plateNumber,
             style: GoogleFonts.ptSans(
               fontSize: 19,
             ),
           ),
-           SizedBox(height: 5),
+          SizedBox(height: 5),
           Text(
             'QR Code:',
             style: GoogleFonts.ptSans(
@@ -131,119 +129,32 @@ class _carprofileState extends State<carprofile> {
           Container(
             child: new Image.asset('images/QR.png',height: 80, fit: BoxFit.cover),
           ),
-          Divider(
-              color: Colors.black),
-              Center(
-            child: CircleAvatar(
-                radius: 60,
-                child: ClipOval(child: Image.asset('images/carpic2.jpg'))),
-          ),
-          SizedBox(height: 25),
-          Text(
-            'Car Owners Name:',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            fname +" " + lname,
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-           'Contact Number:',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            pn,
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Address:',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            ad,
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Car Model',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            'Tesla',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Plate Number',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            'XYZ 123456',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-            ),
-          ),
-           SizedBox(height: 5),
-          Text(
-            'QR Code:',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          Container(
-            child: new Image.asset('images/QR.png',height: 80, fit: BoxFit.cover),
-          ),
+
         ],
       ),
-       )
-      ],
-      ),
-      
+    );
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.separated(
+        itemCount: carList.length,
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.grey,
+        ),
+        itemBuilder: (BuildContext context,
+            int index) {
+          return _carList(
+            carList[index].cFirstName,
+            carList[index].cLastName,
+            carList[index].cAddress,
+            carList[index].cPhoneNumber,
+            carList[index].vehicleModel,
+            carList[index].plateNumber,
+          );
+        }
+    ),
     );
   }
 }

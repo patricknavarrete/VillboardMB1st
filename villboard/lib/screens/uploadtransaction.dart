@@ -1,11 +1,9 @@
-import 'dart:html';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:villboard/screens/homepage.dart';
-import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:villboard/services/authservice.dart';
@@ -13,6 +11,7 @@ import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 
 import '../services/authservice.dart';
+import '../services/sharedpref.dart';
 
 class uploadtransaction extends StatefulWidget {
   uploadtransaction({Key key}) : super(key: key);
@@ -26,6 +25,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
       uLastName,
       uAddress,
       uPhoneNumber,
+      uEmailAdress,
       refNumber,
       userId,
       typeTransaction,
@@ -74,6 +74,8 @@ class _uploadtransactionState extends State<uploadtransaction> {
   String valueChoose;
   List listItem = ["Bank", "Gcash"];
   DateTime _dateTime;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,232 +122,323 @@ class _uploadtransactionState extends State<uploadtransaction> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.person,
-                          size: 30,
-                          color: Colors.black,
+                Form(
+                  key: _form,
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              errorBorder: new OutlineInputBorder(
+                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.person,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                              labelText: "First Name",
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[400],
+                                fontWeight: FontWeight.w800,
+                              )),
+                          onChanged: (val) {
+                            uFirstName = val;
+                          },
+                          validator: (String val) {
+                            if (val.isEmpty) {
+                              return "First Name is required";
+                            }
+                            return null;
+                          },
                         ),
-                        labelText: "First Name",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.person,
-                          size: 30,
-                          color: Colors.black,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              errorBorder: new OutlineInputBorder(
+                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.person,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                              labelText: "Last Name",
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[400],
+                                fontWeight: FontWeight.w800,
+                              )),
+                          onChanged: (val) {
+                            uLastName = val;
+                          },
+                          validator: (String val) {
+                            if (val.isEmpty) {
+                              return "Last Name is required";
+                            }
+                            return null;
+                          },
                         ),
-                        labelText: "Last Name",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.location_on,
-                          size: 30,
-                          color: Colors.black,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              errorBorder: new OutlineInputBorder(
+                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.location_on,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                              labelText: "Address",
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[400],
+                                fontWeight: FontWeight.w800,
+                              )),
+                          onChanged: (val) {
+                            uAddress = val;
+                          },
+                          validator: (String val) {
+                            if (val.isEmpty) {
+                              return "Address is required";
+                            }
+                            return null;
+                          },
                         ),
-                        labelText: "Address",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.email,
-                          size: 30,
-                          color: Colors.black,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              errorBorder: new OutlineInputBorder(
+                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.email,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                              labelText: "Email Address",
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[400],
+                                fontWeight: FontWeight.w800,
+                              )),
+                          onChanged: (val) {
+                            uEmailAdress = val;
+                          },
+                          validator: (String val) {
+                            if (val.isEmpty) {
+                              return "Email Address is required";
+                            }
+                            return null;
+                          },
                         ),
-                        labelText: "Email Address",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.phone,
-                          size: 30,
-                          color: Colors.black,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              errorBorder: new OutlineInputBorder(
+                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.phone,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                              labelText: "Phone Number",
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[400],
+                                fontWeight: FontWeight.w800,
+                              )),
+                          onChanged: (val) {
+                            uPhoneNumber = val;
+                          },
+                          validator: (String val) {
+                            if (val.isEmpty) {
+                              return "Phone Number is required";
+                            }
+                            return null;
+                          },
                         ),
-                        labelText: "Phone Number",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.receipt,
-                          size: 30,
-                          color: Colors.black,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              errorBorder: new OutlineInputBorder(
+                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.receipt,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                              labelText: "Reference Number",
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[400],
+                                fontWeight: FontWeight.w800,
+                              )),
+                          onChanged: (val) {
+                            refNumber = val;
+                          },
+                          validator: (String val) {
+                            if (val.isEmpty && typeTransaction == "Bank") {
+                              return "Reference Number is required";
+                            }
+                            return null;
+                          },
                         ),
-                        labelText: "Reference Number",
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[400],
-                          fontWeight: FontWeight.w800,
-                        )),
-                  ),
+                      ),
+                      SizedBox(height: 25),
+                      Container(
+                        height: 50,
+                        width: 260,
+                        padding: EdgeInsets.only(left: 35, right: 16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: DropdownButton(
+                            value: typeTransaction,
+                            hint: Text("Type of Transaction"),
+                            icon: Icon(Icons.arrow_drop_down),
+                            dropdownColor: Colors.white,
+                            onChanged: (newValue) {
+                              setState(() {
+                                typeTransaction = newValue;
+                              });
+                            },
+                            items: listItem.map((valueItem) {
+                              return DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(valueItem),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                  /*   Text(
+                        _dateTime == null
+                            ? 'Nothing has been picked yet'
+                            : _dateTime.month.toString() +
+                            "/" +
+                            _dateTime.day.toString() +
+                            "/" +
+                            _dateTime.year.toString(),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: FlatButton(
+                          color: Colors.green,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            final date = DateTime(DateTime.now().year + 10);
+                            print(date);
+                            showDatePicker(
+                                context: context,
+                                initialDate: _dateTime == null
+                                    ? DateTime.now()
+                                    : _dateTime,
+                                firstDate:DateTime.now(),
+                                lastDate: date)
+                                .then((date) {
+                              setState(() {
+                                _dateTime = date;
+                              });
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text("Date"),
+                        ),
+                      ),*/
+                      Text(
+                        image == null
+                            ? 'Attach Proof of Payment'
+                            : '✔ Proof of Payment Attached',
+                        style: TextStyle(
+                            color: image == null ? Colors.black : Colors.green[800] ,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 50,
+                        width: 200,
+                        child: FlatButton(
+                          color: Colors.green,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            pickImage();
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text("Upload Image"),
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                    ],
+                  )
                 ),
-                SizedBox(height: 25),
-                Container(
-                  height: 50,
-                  width: 260,
-                  padding: EdgeInsets.only(left: 45, right: 16),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: DropdownButton(
-                      value: valueChoose,
-                      hint: Text("Type of Transaction"),
-                      icon: Icon(Icons.arrow_drop_down),
-                      dropdownColor: Colors.white,
-                      onChanged: (newValue) {
-                        setState(() {
-                          valueChoose = newValue;
-                        });
-                      },
-                      items: listItem.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 25),
-                Text(
-                  _dateTime == null
-                      ? 'Nothing has been picked yet'
-                      : _dateTime.month.toString() +
-                          "/" +
-                          _dateTime.day.toString() +
-                          "/" +
-                          _dateTime.year.toString(),
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: 50,
-                  width: 200,
-                  child: FlatButton(
-                    color: Colors.green,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      showDatePicker(
-                              context: context,
-                              initialDate: _dateTime == null
-                                  ? DateTime.now()
-                                  : _dateTime,
-                              firstDate: DateTime(2001),
-                              lastDate: DateTime(2025))
-                          .then((date) {
-                        setState(() {
-                          _dateTime = date;
-                        });
-                      });
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text("Date"),
-                  ),
-                ),
-                SizedBox(height: 25),
-                SizedBox(
-                  height: 50,
-                  width: 200,
-                  child: FlatButton(
-                    color: Colors.green,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      ;
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text("Upload Image"),
-                  ),
-                ),
-                SizedBox(height: 25),
+
                 SizedBox(
                   height: 50,
                   width: 200,
@@ -353,6 +446,16 @@ class _uploadtransactionState extends State<uploadtransaction> {
                     color: Colors.green,
                     textColor: Colors.white,
                     onPressed: () async {
+                      userId = await StorageUtil.get_id();
+
+                      print(uFirstName);
+                      print(uLastName);
+                      print(uAddress);
+                      print(uPhoneNumber);
+                      print(refNumber);
+                      print(userId);
+                      print(typeTransaction);
+
                       if (_form.currentState.validate()) {
                         var formData = FormData.fromMap({
                           "uFirstName": uFirstName,
@@ -360,10 +463,9 @@ class _uploadtransactionState extends State<uploadtransaction> {
                           "uAddress": uAddress,
                           "uPhoneNumber": uPhoneNumber,
                           "refNumber": refNumber,
+                          "uEmailAdress": uEmailAdress,
                           "userId": userId,
                           "typeTransaction": typeTransaction,
-                          "photoUrl": photoUrl,
-                          "proofPayment": proofPayment,
                           "pPending": "PENDING",
                         });
 
@@ -371,9 +473,10 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         if (image != null) {
                           print('image not null');
                           var fileName = image.path.split('/').last;
+                          print(fileName);
                           formData.files.add(
                             MapEntry(
-                                "profilePicture",
+                                "proofPayment",
                                 await MultipartFile.fromFile(image.path,
                                     filename: fileName,
                                     contentType: new MediaType(
@@ -389,11 +492,8 @@ class _uploadtransactionState extends State<uploadtransaction> {
                             ));
                           print('No Image');
                         }
-                        AuthService()
-                            .addUser(
-                          formData,
-                        )
-                            .then((val) async {
+                        AuthService().addPayment(formData).then((val) async {
+                          print(val.data);
                           Fluttertoast.showToast(
                               msg: val.data['msg'],
                               toastLength: Toast.LENGTH_SHORT,
@@ -421,4 +521,3 @@ class _uploadtransactionState extends State<uploadtransaction> {
   }
 }
 
-class ImagePicker {}

@@ -26,9 +26,17 @@ import 'package:villboard/screens/carregistration.dart';
 import 'package:villboard/services/authservice.dart';
 import 'package:villboard/services/dataset.dart';
 
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
 var postField, postCaption, postCategory, photoUrl;
+
+var pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed;
+
+var cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber;
+
 List<Post> postList = [];
-List<Post> postListE = [];
+List<Pet> petList = [];
+List<Car> carList = [];
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -40,47 +48,50 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
   TabController controller;
-  Future<void> temp() async {
-    postList.clear();
-    postListE.clear();
+
+
+
+  Future<void> getPet() async {
+    petList.clear();
     AuthService()
-        .postAnnouncement(
-      postField,
-      postCaption,
-      postCategory,
-      photoUrl,
-    )
-        .then((val) {
+        .postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed).then((val) {
       for (var i = 0; i < val.data.length; i++) {
-        //if
         setState(() {
           var temp = val.data[i];
-          if (val.data[i]['postCategory'] == "Events") {
-            setState(() {
-              postListE.add(new Post(
-                name: temp['postField'][0]['firstName'],
-                profile: temp['photoUrl'],
-                // profile: temp['postField'][0]['profilePicture'],
-                // temp['postField'][0]['photoUrlProfile'],
-                title: temp['postCaption'],
-                image: temp['photoUrl'],
-              ));
-            });
-          } else if (val.data[i]['postCategory'] == "Announcement") {
-            setState(() {
-              postList.add(new Post(
-                name: temp['postField'][0]['firstName'],
-                profile: temp['photoUrl'],
-                // temp['postField'][0]['photoUrlProfile'],
-                title: temp['postCaption'],
-                image: temp['photoUrl'],
-              ));
-            });
-          }
+          petList.add(new Pet(
+            pFirstName: temp['pFirstName'],
+            pLastName: temp['pLastName'],
+            pAddress: temp['pAddress'],
+            pPhoneNumber: temp['pPhoneNumber'],
+            petName: temp['petName'],
+            petBreed: temp['petBreed'],
+          ));
+          print(petList[i]);
+        });
           print(val.data);
           print(val.data.length);
-          print(postListE);
+      }
+    });
+  }
+
+  Future<void> getCar() async {
+    petList.clear();
+    AuthService()
+        .postCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber).then((val) {
+      for (var i = 0; i < val.data.length; i++) {
+        setState(() {
+          var temp = val.data[i];
+          carList.add(new Car(
+            cFirstName: temp['cFirstName'],
+            cLastName: temp['cLastName'],
+            cAddress: temp['cAddress'],
+            cPhoneNumber: temp['cPhoneNumber'],
+            vehicleModel: temp['vehicleModel'],
+            plateNumber: temp['plateNumber'],
+          ));
         });
+        print(val.data);
+        print(val.data.length);
       }
     });
   }
@@ -88,7 +99,8 @@ class _DashboardState extends State<Dashboard>
   @override
   void initState() {
     super.initState();
-    temp();
+    getPet();
+    getCar();
     controller = new TabController(vsync: this, length: 2);
   }
 
@@ -331,13 +343,13 @@ class _DashboardState extends State<Dashboard>
           ),
         ),
         body: TabBarView(
-          controller: controller,
-          children: <Widget>[
-            new announcement.Announcement(),
-            // new sell.Sell(),
-            // new funding.Funding(),
-            new events.Events(),
-          ],
+            controller: controller,
+            children: <Widget>[
+              new announcement.Announcement(),
+              // new sell.Sell(),
+              // new funding.Funding(),
+              new events.Events(),
+            ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         // floatingActionButton: FloatingActionButton(

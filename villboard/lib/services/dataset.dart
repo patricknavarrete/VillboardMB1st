@@ -15,8 +15,41 @@ class Post {
   });
 }
 
+class Pet {
+  final String pFirstName;
+  final String pLastName;
+  final String pAddress;
+  final String pPhoneNumber;
+  final String petName;
+  final String petBreed;
 
+  Pet({
+        this.pFirstName,
+        this.pLastName,
+        this.pAddress,
+        this.pPhoneNumber,
+        this.petName,
+        this.petBreed,
+      });
+}
 
+class Car {
+  final String cFirstName;
+  final String cLastName;
+  final String cAddress;
+  final String cPhoneNumber;
+  final String vehicleModel;
+  final String plateNumber;
+
+  Car({
+    this.cFirstName,
+    this.cLastName,
+    this.cAddress,
+    this.cPhoneNumber,
+    this.vehicleModel,
+    this.plateNumber
+  });
+}
 // List<Post> postList = [
   
 //   Post(
