@@ -11,7 +11,6 @@ import 'package:villboard/screens/reservation.dart';
 import 'package:villboard/screens/suggestionbox.dart';
 import 'package:villboard/screens/uploadtransaction.dart';
 import 'package:villboard/services/color.dart';
-import 'package:villboard/services/color.dart';
 import 'package:villboard/services/sharedpref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:villboard/screens/login.dart';
@@ -28,13 +27,10 @@ import 'package:villboard/services/dataset.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-var postField, postCaption, postCategory, photoUrl;
-
 var pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed;
 
 var cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber;
 
-List<Post> postList = [];
 List<Pet> petList = [];
 List<Car> carList = [];
 
@@ -48,8 +44,6 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
   TabController controller;
-
-
 
   Future<void> getPet() async {
     petList.clear();

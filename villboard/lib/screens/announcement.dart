@@ -5,8 +5,10 @@ import 'package:villboard/services/dataset.dart';
 import 'package:villboard/services/authservice.dart';
 import 'package:villboard/screens/homepage.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:villboard/services/color.dart';
 
 List<Post> postList = [];
+var postField, postCaption, postCategory, photoUrl;
 
 class Announcement extends StatefulWidget {
 
@@ -16,7 +18,6 @@ class Announcement extends StatefulWidget {
 
 class _AnnouncementState extends State<Announcement> {
   Future<void> temp() async {
-    postList.clear();
     AuthService()
         .postAnnouncement(
       postField,
@@ -24,6 +25,7 @@ class _AnnouncementState extends State<Announcement> {
       postCategory,
       photoUrl,
     ).then((val) {
+      postList.clear();
       for (var i = 0; i < val.data.length; i++) {
         //if
         setState(() {
@@ -61,6 +63,7 @@ class _AnnouncementState extends State<Announcement> {
       body: LiquidPullToRefresh(
         onRefresh: temp,
         showChildOpacityTransition: false,
+          color: greenColor,
         child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

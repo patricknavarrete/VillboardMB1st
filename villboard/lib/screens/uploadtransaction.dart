@@ -329,7 +329,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                             refNumber = val;
                           },
                           validator: (String val) {
-                            if (val.isEmpty && typeTransaction == "Bank") {
+                            if (val.isEmpty) {
                               return "Reference Number is required";
                             }
                             return null;

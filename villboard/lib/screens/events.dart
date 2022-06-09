@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:villboard/services/dataset.dart';
 import 'package:villboard/services/authservice.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:villboard/services/color.dart';
 
 List<Post> postListE = [];
 var postField, postCaption, postCategory, photoUrl;
@@ -16,7 +17,6 @@ class Events extends StatefulWidget {
 class _EventsState extends State<Events> {
 
   Future<void> temp() async {
-    postListE.clear();
     AuthService()
         .postAnnouncement(
       postField,
@@ -24,6 +24,7 @@ class _EventsState extends State<Events> {
       postCategory,
       photoUrl,
     ).then((val) {
+      postListE.clear();
       for (var i = 0; i < val.data.length; i++) {
         //if
         setState(() {
@@ -61,6 +62,7 @@ class _EventsState extends State<Events> {
       body: LiquidPullToRefresh(
         onRefresh: temp,
         showChildOpacityTransition: false,
+        color: greenColor,
         child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
