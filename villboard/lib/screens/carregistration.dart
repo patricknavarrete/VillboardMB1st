@@ -354,13 +354,14 @@ class _CarRegistrationState extends State<CarRegistration> {
                               if (_form.currentState.validate()) {
                                 AuthService()
                                     .addCar(
-                                        cFirstName,
-                                        cLastName,
-                                        cAddress,
-                                        cPhoneNumber,
-                                        vehicleModel,
-                                        plateNumber,
-                                        email)
+                                  cFirstName,
+                                  cLastName,
+                                  cAddress,
+                                  cPhoneNumber,
+                                  vehicleModel,
+                                  plateNumber,
+                                  email,
+                                )
                                     .then((val) {
                                   Fluttertoast.showToast(
                                       msg: val.data['msg'],
