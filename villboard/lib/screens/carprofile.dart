@@ -1,5 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:villboard/services/sharedpref.dart';
 import 'package:villboard/screens/homepage.dart';
 import 'package:villboard/services/dataset.dart';
@@ -17,6 +25,50 @@ class carprofile extends StatefulWidget {
 }
 
 class _carprofileState extends State<carprofile> {
+
+  Future<void> writeToFile(ByteData data, String path) async {
+    final buffer = data.buffer;
+    await File(path).writeAsBytes(
+        buffer.asUint8List(data.offsetInBytes, data.lengthInBytes)
+    );
+    print(path);
+  }
+
+
+  Future<String> downloadQR(String qr) async{
+
+    final qrValidationResult = QrValidator.validate(
+      data: qr,
+      version: QrVersions.auto,
+      errorCorrectionLevel: QrErrorCorrectLevel.L,
+    );
+
+    final qrCode = qrValidationResult.qrCode;
+
+    final painter = QrPainter.withQr(
+      qr: qrCode,
+      color: const Color(0xFF000000),
+      gapless: true,
+      embeddedImageStyle: null,
+      embeddedImage: null,
+    );
+
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    final ts = DateTime.now().millisecondsSinceEpoch.toString();
+    String path = '$tempPath/$ts.png';
+
+    final picData = await painter.toImageData(2048, format: ui.ImageByteFormat.png);
+
+    final buffer = picData.buffer;
+    await File(path).writeAsBytes(
+        buffer.asUint8List(picData.offsetInBytes, picData.lengthInBytes)
+    );
+
+
+    print(path);
+    return path;
+  }
 
   String pn = StorageUtil.getphoneNumber() ?? '';
   String fname = StorageUtil.getfirstName() ?? '';
@@ -58,7 +110,7 @@ class _carprofileState extends State<carprofile> {
   }
 
 
-  Widget _carList(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber){
+  Widget _carList(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, qr){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
@@ -158,17 +210,23 @@ class _carprofileState extends State<carprofile> {
               fontSize: 19,
             ),
           ),
-          SizedBox(height: 5),
-          Text(
-            'QR Code:',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
+          SizedBox(height: 15),
+          qr == null ? Container() :
+          SizedBox(
+            height: 40,
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text("QR Code"),
               color: Colors.green,
+              textColor: Colors.white,
+              onPressed: () {
+                showDialogFunc(
+                    context,
+                    qr);
+              },
             ),
-          ),
-          Container(
-            child: new Image.asset('images/QR.png',height: 80, fit: BoxFit.cover),
           ),
 
         ],
@@ -178,9 +236,9 @@ class _carprofileState extends State<carprofile> {
   
   @override
   Widget build(BuildContext context) {
-    print(car);
+    print(carList.length);
     return Scaffold(
-      body: car == null ?
+      body: carList.length == 0 ?
       Container(
         child: Center(
           child: Column(
@@ -206,9 +264,81 @@ class _carprofileState extends State<carprofile> {
             carList[index].cPhoneNumber,
             carList[index].vehicleModel,
             carList[index].plateNumber,
+            carList[index].cQR,
           );
         }
     ),
+    );
+  }
+
+  showDialogFunc(context, data) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              padding: EdgeInsets.all(15),
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: QrImage(
+                        data: data,
+                        version: QrVersions.auto,
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () async{
+                      String path = await downloadQR(data);
+                      final success = await GallerySaver.saveImage(path);
+                      if(success == true){
+                        Fluttertoast.showToast(
+                            msg: "QR Code saved to Gallery",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                      else{
+                        Fluttertoast.showToast(
+                            msg: "QR Code failed to save",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                    },
+                    child: Container(
+                      child: Text('Download QR Code',
+                          style: GoogleFonts.ptSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

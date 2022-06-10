@@ -244,7 +244,7 @@ class _petprofileState extends State<petprofile> {
   Widget build(BuildContext context) {
     print(petList.length);
     return Scaffold(
-      body: petList == null ?
+      body: petList.length == 0 ?
       Container(
         child: Center(
           child: Column(
