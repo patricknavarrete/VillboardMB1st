@@ -35,7 +35,7 @@ class _carprofileState extends State<carprofile> {
   }
 
 
-  Future<String> downloadQR(String qr) async{
+  Future<String> downloadQR(String qr, String vModel, String plateNum) async{
 
     final qrValidationResult = QrValidator.validate(
       data: qr,
@@ -55,7 +55,7 @@ class _carprofileState extends State<carprofile> {
 
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
-    final ts = DateTime.now().millisecondsSinceEpoch.toString();
+    final ts = "QR-Code-"+vModel+"-"+plateNum;
     String path = '$tempPath/$ts.png';
 
     final picData = await painter.toImageData(2048, format: ui.ImageByteFormat.png);
@@ -224,7 +224,9 @@ class _carprofileState extends State<carprofile> {
               onPressed: () {
                 showDialogFunc(
                     context,
-                    qr);
+                    qr,
+                    vehicleModel,
+                    plateNumber);
               },
             ),
           ),
@@ -271,7 +273,7 @@ class _carprofileState extends State<carprofile> {
     );
   }
 
-  showDialogFunc(context, data) {
+  showDialogFunc(context, data, vModel, plateNum) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -300,7 +302,7 @@ class _carprofileState extends State<carprofile> {
                   ),
                   InkWell(
                     onTap: () async{
-                      String path = await downloadQR(data);
+                      String path = await downloadQR(data, vModel, plateNum);
                       final success = await GallerySaver.saveImage(path);
                       if(success == true){
                         Fluttertoast.showToast(

@@ -439,6 +439,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                                 },
                               ),
                             ),
+                            /*
                             SizedBox(height: 10),
                             Text('QR Code',
                                 style: GoogleFonts.ptSans(
@@ -466,13 +467,16 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   version: QrVersions.auto,
                                   size: 150,
                                 )),
+                            */
+
+
                             SizedBox(height: 20),
                             GestureDetector(
                               onTap: () {},
                               child: Container(
                                 child: Text('Terms and Conditions',
                                     style: GoogleFonts.ptSans(
-                                      fontSize: 15,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: greenColor,
                                     )),
@@ -482,7 +486,6 @@ class _CarRegistrationState extends State<CarRegistration> {
                                             width: 1, color: Colors.green))),
                               ),
                             ),
-                            SizedBox(height: 20),
                             /*   SizedBox(
                           height: 50,
                           width: 200,

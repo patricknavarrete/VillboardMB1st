@@ -44,7 +44,7 @@ class _petprofileState extends State<petprofile> {
   }
 
 
-  Future<String> downloadQR(String qr) async{
+  Future<String> downloadQR(String qr, String petName, String petBreed, String firstName, String lastName) async{
 
     final qrValidationResult = QrValidator.validate(
       data: qr,
@@ -64,7 +64,7 @@ class _petprofileState extends State<petprofile> {
 
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
-    final ts = DateTime.now().millisecondsSinceEpoch.toString();
+    final ts = "QR-Code-"+firstName+"-"+lastName+"-"+petName+"-"+petBreed;
     String path = '$tempPath/$ts.png';
 
     final picData = await painter.toImageData(2048, format: ui.ImageByteFormat.png);
@@ -225,7 +225,11 @@ class _petprofileState extends State<petprofile> {
                 onPressed: () {
                   showDialogFunc(
                       context,
-                      qr);
+                      qr,
+                      petName,
+                      petBreed,
+                      pFirstName,
+                      pLastName);
                 },
               ),
             ),
@@ -277,7 +281,7 @@ class _petprofileState extends State<petprofile> {
     );
   }
 
-  showDialogFunc(context, data) {
+  showDialogFunc(context, data, petName, petBreed, pFirstName, pLastName) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -306,7 +310,7 @@ class _petprofileState extends State<petprofile> {
                   ),
                   InkWell(
                     onTap: () async{
-                      String path = await downloadQR(data);
+                      String path = await downloadQR(data, petName, petBreed, pFirstName, pLastName);
                       final success = await GallerySaver.saveImage(path);
                       if(success == true){
                         Fluttertoast.showToast(

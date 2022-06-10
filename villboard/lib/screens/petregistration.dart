@@ -476,6 +476,8 @@ class _DogRegistrationState extends State<DogRegistration> {
                               ),
                             ),
 
+
+                            /*
                             pFirstName == "" || pLastName == "" || pAddress == "" || email == "" || pPhoneNumber == "" || petName == "" || petBreed == ""  ? Container() :
                             Column(
                               children: [
@@ -559,7 +561,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                                 ),
                               ],
                             ),
-
+                            */
 
                             SizedBox(height: 20),
                             GestureDetector(
@@ -567,7 +569,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                               child: Container(
                                 child: Text('Terms and Conditions',
                                     style: GoogleFonts.ptSans(
-                                      fontSize: 19,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: greenColor,
                                     )),
@@ -577,7 +579,6 @@ class _DogRegistrationState extends State<DogRegistration> {
                                             width: 1, color: Colors.green))),
                               ),
                             ),
-                            SizedBox(height: 5),
                             /*  SizedBox(
                           height: 50,
                           width: 200,
