@@ -119,6 +119,9 @@ class _suggestionboxState extends State<suggestionbox> {
                                           child: TextFormField(
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
+                                              errorBorder: new OutlineInputBorder(
+                                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                              ),
                                               hintText: "Suggestions",
                                               hintStyle: TextStyle(
                                                   color: Colors.grey[400]),
