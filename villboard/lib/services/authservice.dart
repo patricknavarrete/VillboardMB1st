@@ -118,7 +118,7 @@ class AuthService {
   }
 
   addCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel,
-      plateNumber, email, userId) async {
+      plateNumber, email, userId, qr) async {
     try {
       return await dio.post('https://villauth.herokuapp.com/addCar',
           data: {
@@ -128,8 +128,9 @@ class AuthService {
             "cPhoneNumber": cPhoneNumber,
             "vehicleModel": vehicleModel,
             "plateNumber": plateNumber,
-            "email": email,
-            "userId": userId
+            "cEmail": email,
+            "userId": userId,
+            "cQR": qr
           },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } on DioError catch (e) {
@@ -144,18 +145,19 @@ class AuthService {
   }
 
   addPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName, petBreed,
-      email, userId) async {
+      email, userId, qr) async {
     try {
       return await dio.post('https://villauth.herokuapp.com/addPet',
           data: {
             "pFirstName": pFirstName,
             "pLastName": pLastName,
+            "pEmail": email,
             "pAddress": pAddress,
             "pPhoneNumber": pPhoneNumber,
             "petName": petName,
             "petBreed": petBreed,
-            "email": email,
-            "userId": userId
+            "userId": userId,
+            "pQR": qr
           },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } on DioError catch (e) {
@@ -180,8 +182,7 @@ class AuthService {
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
-  postPet(
-      pFirstName, pLastName, pAddress, pPhoneNumber, petName, petBreed) async {
+  postPet( pFirstName, pLastName, pAddress, pPhoneNumber, petName, petBreed, userId, pQR) async {
     return await dio.post('https://villauth.herokuapp.com/postPet',
         data: {
           "pFirstName": pFirstName,
@@ -189,13 +190,15 @@ class AuthService {
           "pAddress": pAddress,
           "pPhoneNumber": pPhoneNumber,
           "petName": petName,
-          "petBreed": petBreed
+          "petBreed": petBreed,
+          "userId": userId,
+          "pQR": pQR,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
   postCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel,
-      plateNumber) async {
+      plateNumber, userId, cQR) async {
     return await dio.post('https://villauth.herokuapp.com/postCar',
         data: {
           "cFirstName": cFirstName,
@@ -203,7 +206,9 @@ class AuthService {
           "cAddress": cAddress,
           "cPhoneNumber": cPhoneNumber,
           "vehicleModel": vehicleModel,
-          "plateNumber": plateNumber
+          "plateNumber": plateNumber,
+          "userId": userId,
+           "cQR": cQR,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }

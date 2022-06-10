@@ -27,12 +27,6 @@ import 'package:villboard/services/dataset.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-var pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed;
-
-var cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber;
-
-List<Pet> petList = [];
-List<Car> carList = [];
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -45,56 +39,9 @@ class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
   TabController controller;
 
-  Future<void> getPet() async {
-    petList.clear();
-    AuthService()
-        .postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed).then((val) {
-      for (var i = 0; i < val.data.length; i++) {
-        setState(() {
-          var temp = val.data[i];
-          petList.add(new Pet(
-            pFirstName: temp['pFirstName'],
-            pLastName: temp['pLastName'],
-            pAddress: temp['pAddress'],
-            pPhoneNumber: temp['pPhoneNumber'],
-            petName: temp['petName'],
-            petBreed: temp['petBreed'],
-          ));
-          print(petList[i]);
-        });
-          print(val.data);
-          print(val.data.length);
-      }
-    });
-  }
-
-  Future<void> getCar() async {
-    petList.clear();
-    AuthService()
-        .postCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber).then((val) {
-      for (var i = 0; i < val.data.length; i++) {
-        setState(() {
-          var temp = val.data[i];
-          carList.add(new Car(
-            cFirstName: temp['cFirstName'],
-            cLastName: temp['cLastName'],
-            cAddress: temp['cAddress'],
-            cPhoneNumber: temp['cPhoneNumber'],
-            vehicleModel: temp['vehicleModel'],
-            plateNumber: temp['plateNumber'],
-          ));
-        });
-        print(val.data);
-        print(val.data.length);
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    getPet();
-    getCar();
     controller = new TabController(vsync: this, length: 2);
   }
 
@@ -221,7 +168,7 @@ class _DashboardState extends State<Dashboard>
                     title: Text("Pet Registration",
                         style: TextStyle(color: Colors.white)),
                     trailing: Icon(
-                      Icons.qr_code,
+                      Icons.pets,
                       color: Colors.black,
                     ),
                     onTap: () {
@@ -235,7 +182,7 @@ class _DashboardState extends State<Dashboard>
                     title: Text("Car Registration",
                         style: TextStyle(color: Colors.white)),
                     trailing: Icon(
-                      Icons.qr_code,
+                      Icons.car_repair,
                       color: Colors.black,
                     ),
                     onTap: () {

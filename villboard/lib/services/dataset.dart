@@ -22,6 +22,7 @@ class Pet {
   final String pPhoneNumber;
   final String petName;
   final String petBreed;
+  final String pQR;
 
   Pet({
         this.pFirstName,
@@ -30,6 +31,7 @@ class Pet {
         this.pPhoneNumber,
         this.petName,
         this.petBreed,
+        this.pQR,
       });
 }
 
@@ -40,6 +42,7 @@ class Car {
   final String cPhoneNumber;
   final String vehicleModel;
   final String plateNumber;
+  final String cQR;
 
   Car({
     this.cFirstName,
@@ -47,7 +50,8 @@ class Car {
     this.cAddress,
     this.cPhoneNumber,
     this.vehicleModel,
-    this.plateNumber
+    this.plateNumber,
+    this.cQR,
   });
 }
 // List<Post> postList = [

@@ -66,7 +66,7 @@ class _suggestionboxState extends State<suggestionbox> {
                             child: Column(
                               children: <Widget>[
                                   Container(
-                                    padding: EdgeInsets.all(5),
+                                    padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(12),
@@ -90,12 +90,21 @@ class _suggestionboxState extends State<suggestionbox> {
                                           child: TextFormField(
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
+                                              errorBorder: new OutlineInputBorder(
+                                                borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                              ),
                                               hintText: "Name",
                                               hintStyle: TextStyle(
                                                   color: Colors.grey[400]),
                                             ),
                                             onChanged: (val) {
                                                aName = val;
+                                            },
+                                            validator: (String val) {
+                                              if (val.isEmpty) {
+                                                return "Name is required";
+                                              }
+                                              return null;
                                             },
                                           ),
                                         ),
@@ -116,6 +125,12 @@ class _suggestionboxState extends State<suggestionbox> {
                                             ),
                                             onChanged: (val) {
                                               suggestions = val;
+                                            },
+                                            validator: (String val) {
+                                              if (val.isEmpty) {
+                                                return "Suggestions is required";
+                                              }
+                                              return null;
                                             },
                                           ),
                                         ),
@@ -160,6 +175,7 @@ class _suggestionboxState extends State<suggestionbox> {
                                                   }),
                                             ),
                                           ),
+                                        SizedBox(height: 25),
                                       ],
                                     ),
                                   ),

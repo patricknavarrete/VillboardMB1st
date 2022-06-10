@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:villboard/screens/registration.dart';
 import 'package:villboard/services/sharedpref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:villboard/services/color.dart';
 
 class loginscreen extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _loginscreenState extends State<loginscreen> {
   var email, password, token, lastName, address, _id;
 
   var store;
+  var loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +176,7 @@ class _loginscreenState extends State<loginscreen> {
                     ),
                   ),
                   SizedBox(height: 50),
+                  loading == true ? CircularProgressIndicator(color: Colors.green,):
                   ButtonTheme(
                     minWidth: 200,
                     height: 50,
@@ -191,6 +194,9 @@ class _loginscreenState extends State<loginscreen> {
                       ),
                       elevation: 10.0,
                       onPressed: () {
+                        setState(() {
+                          loading = true;
+                        });
                         AuthService().login(email, password).then((val) {
                           if (val.data['success']) {
                             token = val.data['token'];
@@ -237,7 +243,9 @@ class _loginscreenState extends State<loginscreen> {
 
                               // print(store['petField'][0]['petName']);
                               // Shared Preference
-
+                              setState(() {
+                                loading = false;
+                              });
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
