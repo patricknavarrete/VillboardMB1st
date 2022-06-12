@@ -22,6 +22,13 @@ class DogRegistration extends StatefulWidget {
 }
 
 class _DogRegistrationState extends State<DogRegistration> {
+  var fName = TextEditingController();
+  var lName = TextEditingController();
+  var address = TextEditingController();
+  var pNumber = TextEditingController();
+  var pName = TextEditingController();
+  var pBreed = TextEditingController();
+  var userEmail = TextEditingController();
 
   var pFirstName ="", pLastName="", pAddress="", pPhoneNumber="", petName="", petBreed="", email="", userId;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
@@ -69,6 +76,25 @@ class _DogRegistrationState extends State<DogRegistration> {
     print(path);
     return path;
   }
+
+  clearTextField (){
+    fName.clear();
+    lName.clear();
+    address.clear();
+    pNumber.clear();
+    pName.clear();
+    pBreed.clear();
+    userEmail.clear();
+
+    pFirstName="";
+    pLastName="";
+    pAddress="";
+    pPhoneNumber="";
+    petName="";
+    petBreed="";
+    email="";
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +159,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: fName,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -181,6 +208,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: lName,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -229,6 +257,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                             Container(
                               padding:EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: userEmail,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -277,6 +306,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: address,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -321,6 +351,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                             Container(
                               padding:EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: pNumber,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -390,6 +421,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: pName,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -434,6 +466,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: pBreed,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -652,14 +685,26 @@ class _DogRegistrationState extends State<DogRegistration> {
                                         .addPet(pFirstName, pLastName, pAddress,
                                         pPhoneNumber, petName, petBreed, email, userId, qrCode)
                                         .then((val) {
-
-                                      Fluttertoast.showToast(
-                                          msg: val.data['msg'],
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor: Colors.green,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                          print(val.data);
+                                          if(val.data['success']){
+                                            clearTextField();
+                                            Fluttertoast.showToast(
+                                                msg: val.data['msg'],
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                backgroundColor: Colors.green,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                          else{
+                                            Fluttertoast.showToast(
+                                                msg: val.data['msg'],
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
                                     });
                                   } else {
                                     print("UnSuccessfull");

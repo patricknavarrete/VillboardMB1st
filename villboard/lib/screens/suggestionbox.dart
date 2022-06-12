@@ -16,6 +16,10 @@ class _suggestionboxState extends State<suggestionbox> {
 
   var aName, suggestions;
 
+
+  var name = TextEditingController();
+  var suggest = TextEditingController();
+
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
@@ -88,6 +92,7 @@ class _suggestionboxState extends State<suggestionbox> {
                                             ),
                                           ),
                                           child: TextFormField(
+                                            controller: name,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               errorBorder: new OutlineInputBorder(
@@ -117,6 +122,7 @@ class _suggestionboxState extends State<suggestionbox> {
                                             ),
                                           ),
                                           child: TextFormField(
+                                            controller: suggest,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               errorBorder: new OutlineInputBorder(
@@ -158,19 +164,28 @@ class _suggestionboxState extends State<suggestionbox> {
                                                           .addSuggestion(
                                                           aName, suggestions)
                                                           .then((val) {
-                                                        Fluttertoast.showToast(
-                                                            msg:
-                                                            val.data['msg'],
-                                                            toastLength: Toast
-                                                                .LENGTH_SHORT,
-                                                            gravity:
-                                                            ToastGravity
-                                                                .BOTTOM,
-                                                            backgroundColor:
-                                                            Colors.green,
-                                                            textColor:
-                                                            Colors.white,
-                                                            fontSize: 16.0);
+                                                            name.clear();
+                                                            suggest.clear();
+                                                            if(val.data['success']){
+                                                              Fluttertoast.showToast(
+                                                                  msg:
+                                                                  val.data['msg'],
+                                                                  toastLength: Toast.LENGTH_SHORT,
+                                                                  gravity: ToastGravity.BOTTOM,
+                                                                  backgroundColor: Colors.green,
+                                                                  textColor:Colors.white,
+                                                                  fontSize: 16.0);
+                                                            }
+                                                            else{
+                                                              Fluttertoast.showToast(
+                                                                  msg:
+                                                                  val.data['msg'],
+                                                                  toastLength: Toast.LENGTH_SHORT,
+                                                                  gravity: ToastGravity.BOTTOM,
+                                                                  backgroundColor: Colors.red,
+                                                                  textColor:Colors.white,
+                                                                  fontSize: 16.0);
+                                                            }
                                                       });
                                                     } else {
                                                       print("UnSuccessfull");

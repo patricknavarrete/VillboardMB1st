@@ -18,6 +18,13 @@ class _reservationState extends State<reservation> {
 
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
+  var fName = TextEditingController();
+  var lName = TextEditingController();
+  var address = TextEditingController();
+  var pNumber = TextEditingController();
+  var userEmail = TextEditingController();
+
+
   var rFirstName,
       rLastName,
       rAddress,
@@ -28,6 +35,29 @@ class _reservationState extends State<reservation> {
       reservationDate,
       rPending,
       email;
+
+  clearTextField (){
+    setState(() {
+      fName.clear();
+      lName.clear();
+      address.clear();
+      pNumber.clear();
+      userEmail.clear();
+
+      rFirstName="";
+      rLastName="";
+      rAddress="";
+      rPhoneNumber="";
+      email="";
+
+      venue=null;
+      reservationDate= null;
+      newTime = null;
+      selectedDate =  DateTime.now();
+      venueCheck = false;
+      timeCheck = false;
+    });
+  }
 
   var store;
 
@@ -142,6 +172,7 @@ class _reservationState extends State<reservation> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: fName,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -178,6 +209,7 @@ class _reservationState extends State<reservation> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: lName,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -214,6 +246,7 @@ class _reservationState extends State<reservation> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: userEmail,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -254,6 +287,7 @@ class _reservationState extends State<reservation> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: address,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -289,6 +323,7 @@ class _reservationState extends State<reservation> {
                         Container(
                           padding: EdgeInsets.symmetric( horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: pNumber,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -337,7 +372,7 @@ class _reservationState extends State<reservation> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: DropdownButton(
-                              value: valueChoose,
+                              value: venue,
                               hint: Text("Select Venue"),
                               icon: Icon(Icons.arrow_drop_down),
                               dropdownColor: Colors.white,
@@ -347,7 +382,6 @@ class _reservationState extends State<reservation> {
                               onChanged: (val) {
                                 setState(() {
                                   venue = val;
-                                  valueChoose = val;
                                 });
                               },
                               items: listItem.map((valueItem) {
@@ -390,7 +424,6 @@ class _reservationState extends State<reservation> {
                               // },
                               onChanged: (val) {
                                 setState(() {
-                                  reservationTime = val;
                                   newTime = val;
                                 });
                               },
@@ -443,7 +476,7 @@ class _reservationState extends State<reservation> {
                             color: Colors.green,
                             textColor: Colors.white,
                             onPressed: () async {
-                              if (_form.currentState.validate()) {
+                              if (_form.currentState.validate() && venue != null && newTime != null) {
                                 userId = await StorageUtil.get_id();
                                 AuthService()
                                     .addReservation(
@@ -453,19 +486,31 @@ class _reservationState extends State<reservation> {
                                   rPhoneNumber,
                                   userId,
                                   venue,
-                                  reservationTime,
+                                  newTime,
                                   selectedDate,
                                   email,
                                   rPending,
                                 )
                                     .then((val) async {
-                                  Fluttertoast.showToast(
-                                      msg: val.data['msg'],
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.green,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
+                                      if(val.data['success']){
+                                        clearTextField();
+                                        Fluttertoast.showToast(
+                                            msg: val.data['msg'],
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            backgroundColor: Colors.green,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      }
+                                      else{
+                                        Fluttertoast.showToast(
+                                            msg: val.data['msg'],
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      }
                                 });
                               }
                               else{
@@ -479,7 +524,7 @@ class _reservationState extends State<reservation> {
                                     venueCheck = false;
                                   });
                                 }
-                                if(reservationTime == null){
+                                if(newTime == null){
                                   setState(() {
                                     timeCheck = true;
                                   });

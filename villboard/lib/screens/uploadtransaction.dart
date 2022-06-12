@@ -21,6 +21,14 @@ class uploadtransaction extends StatefulWidget {
 }
 
 class _uploadtransactionState extends State<uploadtransaction> {
+
+  var fName = TextEditingController();
+  var lName = TextEditingController();
+  var address = TextEditingController();
+  var pNumber = TextEditingController();
+  var rNumber = TextEditingController();
+  var userEmail = TextEditingController();
+
   var uFirstName,
       uLastName,
       uAddress,
@@ -30,6 +38,32 @@ class _uploadtransactionState extends State<uploadtransaction> {
       userId,
       typeTransaction,
       proofPayment;
+
+  clearTextField (){
+    setState(() {
+      fName.clear();
+      lName.clear();
+      address.clear();
+      pNumber.clear();
+      rNumber.clear();
+      userEmail.clear();
+
+      uFirstName="";
+      uLastName="";
+      uAddress="";
+      uPhoneNumber="";
+      uEmailAdress="";
+      refNumber="";
+      proofPayment="";
+      image = null;
+      typeTransaction=null;
+
+      imageCheck = false;
+      typeTransactionCheck = false;
+    });
+  }
+
+
 
   bool typeTransactionCheck = false;
   bool imageCheck = false;
@@ -132,6 +166,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: fName,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -171,6 +206,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: lName,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -210,6 +246,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: address,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -245,6 +282,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: userEmail,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -284,6 +322,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: pNumber,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -323,6 +362,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: TextFormField(
+                            controller: rNumber,
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -497,7 +537,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                       print(userId);
                       print(typeTransaction);
 
-                      if (_form.currentState.validate()) {
+                      if (_form.currentState.validate() && typeTransaction != null && image != null) {
                         var formData = FormData.fromMap({
                           "uFirstName": uFirstName,
                           "uLastName": uLastName,
@@ -535,13 +575,25 @@ class _uploadtransactionState extends State<uploadtransaction> {
                         }
                         AuthService().addPayment(formData).then((val) async {
                           print(val.data);
-                          Fluttertoast.showToast(
-                              msg: val.data['msg'],
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              backgroundColor: Colors.green,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
+                          if(val.data['success']){
+                            clearTextField();
+                            Fluttertoast.showToast(
+                                msg: val.data['msg'],
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                          else{
+                            Fluttertoast.showToast(
+                                msg: val.data['msg'],
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
                         });
                       } else {
                         if(typeTransaction == null){

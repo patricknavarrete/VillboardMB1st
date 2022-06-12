@@ -14,6 +14,14 @@ class CarRegistration extends StatefulWidget {
 class _CarRegistrationState extends State<CarRegistration> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
+  var fName = TextEditingController();
+  var lName = TextEditingController();
+  var address = TextEditingController();
+  var pNumber = TextEditingController();
+  var vModel = TextEditingController();
+  var vPNumber = TextEditingController();
+  var userEmail = TextEditingController();
+
   var cFirstName = "",
       cLastName = "",
       cAddress = "",
@@ -22,6 +30,25 @@ class _CarRegistrationState extends State<CarRegistration> {
       plateNumber = "",
       userId,
       cEmail = "";
+
+  clearTextField (){
+    fName.clear();
+    lName.clear();
+    address.clear();
+    pNumber.clear();
+    vModel.clear();
+    vPNumber.clear();
+    userEmail.clear();
+
+    cFirstName="";
+    cLastName="";
+    cAddress="";
+    cPhoneNumber="";
+    vehicleModel="";
+    plateNumber="";
+    cEmail="";
+  }
+
 
 
   @override
@@ -89,6 +116,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: fName,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -138,6 +166,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: lName,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -187,6 +216,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: userEmail,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -236,6 +266,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: address,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -281,6 +312,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: pNumber,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -296,7 +328,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                                       size: 30,
                                       color: Colors.black,
                                     ),
-                                    labelText: "Phone",
+                                    labelText: "Phone Number",
                                     labelStyle: TextStyle(
                                       fontSize: 15,
                                       color: Colors.grey[400],
@@ -353,6 +385,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: vModel,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -398,6 +431,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                               padding:
                               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               child: TextFormField(
+                                controller: vPNumber,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -558,13 +592,26 @@ class _CarRegistrationState extends State<CarRegistration> {
                                       qrCode,
                                     )
                                         .then((val) {
-                                      Fluttertoast.showToast(
-                                          msg: val.data['msg'],
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor: Colors.green,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                          print(val.data);
+                                          if(val.data['success']){
+                                            clearTextField();
+                                            Fluttertoast.showToast(
+                                                msg: val.data['msg'],
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                backgroundColor: Colors.green,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
+                                          else{
+                                            Fluttertoast.showToast(
+                                                msg: val.data['msg'],
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
+                                          }
                                     });
                                   } else {
                                     print("UnSuccessfull");
