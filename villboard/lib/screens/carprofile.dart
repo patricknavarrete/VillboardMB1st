@@ -16,6 +16,7 @@ import '../services/authservice.dart';
 
 var cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, cQR, cEmail;
 List<Car> carList = [];
+bool loading = true;
 
 class carprofile extends StatefulWidget {
   const carprofile({ Key key }) : super(key: key);
@@ -104,6 +105,9 @@ class _carprofileState extends State<carprofile> {
       }
       carList.sort((a, b) {
         return b.createdAt.compareTo(a.createdAt);
+      });
+      setState(() {
+        loading = false;
       });
     });
   }
@@ -263,7 +267,8 @@ class _carprofileState extends State<carprofile> {
   Widget build(BuildContext context) {
     print(carList.length);
     return Scaffold(
-      body: carList.length == 0 ?
+      body: loading == true ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, color: Colors.green),) :
+      carList.length == 0 ?
       Container(
         child: Center(
           child: Column(

@@ -16,6 +16,7 @@ import '../services/authservice.dart';
 
 List<Pet> petList = [];
 var pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, pQR, pEmail;
+bool loading = true;
 
 class petprofile extends StatefulWidget {
   const petprofile({ Key key }) : super(key: key);
@@ -30,8 +31,6 @@ class _petprofileState extends State<petprofile> {
   String fname = StorageUtil.getfirstName() ?? '';
   String lname = StorageUtil.getlastName() ?? '';
   String ad = StorageUtil.getaddress() ?? '';
-
-  bool loading;
 
   var pets =  StorageUtil.getpetField();
 
@@ -82,9 +81,6 @@ class _petprofileState extends State<petprofile> {
   Future<void> getPet() async {
     var userId = await StorageUtil.get_id();
     print(userId);
-    setState(() {
-      loading = true;
-    });
     AuthService().postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, userId, pQR, pEmail).then((val) {
       petList.clear();
       for (var i = 0; i < val.data.length; i++) {
@@ -271,7 +267,8 @@ class _petprofileState extends State<petprofile> {
   Widget build(BuildContext context) {
     print(petList.length);
     return Scaffold(
-      body: petList.length == 0 ?
+      body: loading == true ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, color: Colors.green),) :
+      petList.length == 0 ?
       Container(
         child: Center(
           child: Column(

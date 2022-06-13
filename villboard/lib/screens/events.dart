@@ -8,7 +8,7 @@ import 'package:villboard/services/color.dart';
 
 List<Post> postListE = [];
 var postField, postCaption, postCategory, photoUrl;
-
+bool loading = true;
 class Events extends StatefulWidget {
   @override
   State<Events> createState() => _EventsState();
@@ -33,7 +33,7 @@ class _EventsState extends State<Events> {
             setState(() {
               postListE.add(new Post(
                 name: temp['postField'][0]['firstName'],
-                profile: temp['photoUrl'],
+                profile: temp['postField'][0]['photoUrlProfile'],
                 // profile: temp['postField'][0]['profilePicture'],
                 // temp['postField'][0]['photoUrlProfile'],
                 title: temp['postCaption'],
@@ -50,6 +50,9 @@ class _EventsState extends State<Events> {
       postListE.sort((a, b) {
         return b.createdAt.compareTo(a.createdAt);
       });
+      setState(() {
+        loading = false;
+      });
     });
   }
 
@@ -63,7 +66,7 @@ class _EventsState extends State<Events> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
-      body: LiquidPullToRefresh(
+      body: loading == true ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, color: Colors.green),) : LiquidPullToRefresh(
         onRefresh: temp,
         showChildOpacityTransition: false,
         color: greenColor,
@@ -144,6 +147,7 @@ class PostWidget extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
+              postListE[index].image == null ? Container() :
               Center(
                 child: Container(
                   height: 250,

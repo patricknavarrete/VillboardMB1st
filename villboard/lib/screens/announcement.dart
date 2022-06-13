@@ -8,6 +8,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:villboard/services/color.dart';
 
 List<Post> postList = [];
+bool loading = true;
 var postField, postCaption, postCategory, photoUrl;
 
 class Announcement extends StatefulWidget {
@@ -34,7 +35,7 @@ class _AnnouncementState extends State<Announcement> {
             setState(() {
               postList.add(new Post(
                 name: temp['postField'][0]['firstName'],
-                profile: temp['photoUrl'],
+                profile: temp['postField'][0]['photoUrlProfile'],
                 // temp['postField'][0]['photoUrlProfile'],
                 title: temp['postCaption'],
                 image: temp['photoUrl'],
@@ -50,6 +51,9 @@ class _AnnouncementState extends State<Announcement> {
       postList.sort((a, b) {
         return b.createdAt.compareTo(a.createdAt);
       });
+      setState(() {
+        loading = false;
+      });
     });
   }
 
@@ -64,7 +68,7 @@ class _AnnouncementState extends State<Announcement> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
-      body: LiquidPullToRefresh(
+      body: loading == true ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, color: Colors.green),) : LiquidPullToRefresh(
         onRefresh: temp,
         showChildOpacityTransition: false,
           color: greenColor,
@@ -148,6 +152,7 @@ class _PostWidgetState extends State<PostWidget> {
               SizedBox(
                 height: 10,
               ),
+              postList[index].image == null ? Container() :
               Center(
                 child: Container(
                   height: 250,
