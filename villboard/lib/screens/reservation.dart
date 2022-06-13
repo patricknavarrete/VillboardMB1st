@@ -24,6 +24,7 @@ class _reservationState extends State<reservation> {
   var pNumber = TextEditingController();
   var userEmail = TextEditingController();
 
+  var loading = false;
 
   var rFirstName,
       rLastName,
@@ -469,6 +470,7 @@ class _reservationState extends State<reservation> {
                           ),
                         ),
                         SizedBox(height: 25),
+                        loading == true ? CircularProgressIndicator(color: Colors.green,):
                         SizedBox(
                           height: 50,
                           width: 200,
@@ -476,6 +478,9 @@ class _reservationState extends State<reservation> {
                             color: Colors.green,
                             textColor: Colors.white,
                             onPressed: () async {
+                              setState(() {
+                                loading = true;
+                              });
                               if (_form.currentState.validate() && venue != null && newTime != null) {
                                 userId = await StorageUtil.get_id();
                                 AuthService()
@@ -501,6 +506,9 @@ class _reservationState extends State<reservation> {
                                             backgroundColor: Colors.green,
                                             textColor: Colors.white,
                                             fontSize: 16.0);
+                                        setState(() {
+                                          loading = false;
+                                        });
                                       }
                                       else{
                                         Fluttertoast.showToast(
@@ -510,6 +518,9 @@ class _reservationState extends State<reservation> {
                                             backgroundColor: Colors.red,
                                             textColor: Colors.white,
                                             fontSize: 16.0);
+                                        setState(() {
+                                          loading = false;
+                                        });
                                       }
                                 });
                               }
@@ -534,6 +545,10 @@ class _reservationState extends State<reservation> {
                                     timeCheck = false;
                                   });
                                 }
+                                setState(() {
+                                  loading = false;
+                                });
+
                               }
                               // submitAmenities(context);
                             },

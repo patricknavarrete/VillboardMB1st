@@ -15,7 +15,7 @@ class _suggestionboxState extends State<suggestionbox> {
   bool isChecked = false;
 
   var aName, suggestions;
-
+  var loading = false;
 
   var name = TextEditingController();
   var suggest = TextEditingController();
@@ -144,6 +144,7 @@ class _suggestionboxState extends State<suggestionbox> {
                                           ),
                                         ),
                                         SizedBox(height: 25),
+                                        loading == true ? CircularProgressIndicator(color: Colors.green,):
                                         Center(
                                             child: ButtonTheme(
                                               minWidth: 200,
@@ -158,6 +159,9 @@ class _suggestionboxState extends State<suggestionbox> {
                                                   ),
                                                   elevation: 10.0,
                                                   onPressed: () {
+                                                    setState(() {
+                                                      loading = true;
+                                                    });
                                                     if (_form.currentState
                                                         .validate()) {
                                                       AuthService()
@@ -175,6 +179,9 @@ class _suggestionboxState extends State<suggestionbox> {
                                                                   backgroundColor: Colors.green,
                                                                   textColor:Colors.white,
                                                                   fontSize: 16.0);
+                                                              setState(() {
+                                                                loading = false;
+                                                              });
                                                             }
                                                             else{
                                                               Fluttertoast.showToast(
@@ -185,10 +192,16 @@ class _suggestionboxState extends State<suggestionbox> {
                                                                   backgroundColor: Colors.red,
                                                                   textColor:Colors.white,
                                                                   fontSize: 16.0);
+                                                              setState(() {
+                                                                loading = false;
+                                                              });
                                                             }
                                                       });
                                                     } else {
                                                       print("UnSuccessfull");
+                                                      setState(() {
+                                                        loading = false;
+                                                      });
                                                     }
                                                   }),
                                             ),

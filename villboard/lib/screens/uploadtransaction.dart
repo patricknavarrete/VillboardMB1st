@@ -39,6 +39,8 @@ class _uploadtransactionState extends State<uploadtransaction> {
       typeTransaction,
       proofPayment;
 
+  var loading = false;
+
   clearTextField (){
     setState(() {
       fName.clear();
@@ -520,6 +522,7 @@ class _uploadtransactionState extends State<uploadtransaction> {
                     )
                 ),
 
+                loading == true ? CircularProgressIndicator(color: Colors.green,):
                 SizedBox(
                   height: 50,
                   width: 200,
@@ -527,6 +530,10 @@ class _uploadtransactionState extends State<uploadtransaction> {
                     color: Colors.green,
                     textColor: Colors.white,
                     onPressed: () async {
+                      setState(() {
+                        loading = true;
+                      });
+
                       userId = await StorageUtil.get_id();
 
                       print(uFirstName);
@@ -584,6 +591,9 @@ class _uploadtransactionState extends State<uploadtransaction> {
                                 backgroundColor: Colors.green,
                                 textColor: Colors.white,
                                 fontSize: 16.0);
+                            setState(() {
+                              loading = false;
+                            });
                           }
                           else{
                             Fluttertoast.showToast(
@@ -594,6 +604,9 @@ class _uploadtransactionState extends State<uploadtransaction> {
                                 textColor: Colors.white,
                                 fontSize: 16.0);
                           }
+                          setState(() {
+                            loading = false;
+                          });
                         });
                       } else {
                         if(typeTransaction == null){
@@ -617,6 +630,9 @@ class _uploadtransactionState extends State<uploadtransaction> {
                           });
                         }
                         print("UnSuccessfull");
+                        setState(() {
+                          loading = false;
+                        });
                       }
                     },
                     shape: RoundedRectangleBorder(

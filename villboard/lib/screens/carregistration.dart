@@ -22,6 +22,8 @@ class _CarRegistrationState extends State<CarRegistration> {
   var vPNumber = TextEditingController();
   var userEmail = TextEditingController();
 
+  var loading = false;
+
   var cFirstName = "",
       cLastName = "",
       cAddress = "",
@@ -556,6 +558,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                           ),
                         ),*/
                             SizedBox(height: 20),
+                            loading == true ? CircularProgressIndicator(color: Colors.green,):
                             SizedBox(
                               height: 50,
                               width: 200,
@@ -563,6 +566,9 @@ class _CarRegistrationState extends State<CarRegistration> {
                                 color: Colors.green,
                                 textColor: Colors.white,
                                 onPressed: () async{
+                                  setState(() {
+                                    loading = true;
+                                  });
                                   userId = await StorageUtil.get_id();
                                   var qrCode = "First Name: " +
                                       cFirstName +
@@ -602,6 +608,9 @@ class _CarRegistrationState extends State<CarRegistration> {
                                                 backgroundColor: Colors.green,
                                                 textColor: Colors.white,
                                                 fontSize: 16.0);
+                                            setState(() {
+                                              loading = false;
+                                            });
                                           }
                                           else{
                                             Fluttertoast.showToast(
@@ -611,10 +620,16 @@ class _CarRegistrationState extends State<CarRegistration> {
                                                 backgroundColor: Colors.red,
                                                 textColor: Colors.white,
                                                 fontSize: 16.0);
+                                            setState(() {
+                                              loading = false;
+                                            });
                                           }
                                     });
                                   } else {
                                     print("UnSuccessfull");
+                                    setState(() {
+                                      loading = false;
+                                    });
                                   }
                                 },
                                 shape: RoundedRectangleBorder(

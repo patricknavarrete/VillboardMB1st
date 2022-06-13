@@ -30,6 +30,8 @@ class _DogRegistrationState extends State<DogRegistration> {
   var pBreed = TextEditingController();
   var userEmail = TextEditingController();
 
+  var loading = false;
+
   var pFirstName ="", pLastName="", pAddress="", pPhoneNumber="", petName="", petBreed="", email="", userId;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
@@ -648,6 +650,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                           ),
                         ),*/
                             SizedBox(height: 20),
+                            loading == true ? CircularProgressIndicator(color: Colors.green,):
                             SizedBox(
                               height: 50,
                               width: 200,
@@ -655,6 +658,9 @@ class _DogRegistrationState extends State<DogRegistration> {
                                 color: Colors.green,
                                 textColor: Colors.white,
                                 onPressed: () async{
+                                  setState(() {
+                                    loading = true;
+                                  });
                                   userId = await StorageUtil.get_id();
                                   var qrCode = "First Name: " +
                                       pFirstName +
@@ -695,6 +701,9 @@ class _DogRegistrationState extends State<DogRegistration> {
                                                 backgroundColor: Colors.green,
                                                 textColor: Colors.white,
                                                 fontSize: 16.0);
+                                            setState(() {
+                                              loading = false;
+                                            });
                                           }
                                           else{
                                             Fluttertoast.showToast(
@@ -704,10 +713,16 @@ class _DogRegistrationState extends State<DogRegistration> {
                                                 backgroundColor: Colors.red,
                                                 textColor: Colors.white,
                                                 fontSize: 16.0);
+                                            setState(() {
+                                              loading = false;
+                                            });
                                           }
                                     });
                                   } else {
                                     print("UnSuccessfull");
+                                    setState(() {
+                                      loading = false;
+                                    });
                                   }
                                 },
                                 shape: RoundedRectangleBorder(

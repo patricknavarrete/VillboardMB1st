@@ -6,12 +6,13 @@ class Post {
   final String profile;
   final String title;
   final String image;
-
+  final String createdAt;
   Post({
     this.name,
     this.profile,
     this.title,
     this.image,
+    this.createdAt,
   });
 }
 
@@ -23,6 +24,8 @@ class Pet {
   final String petName;
   final String petBreed;
   final String pQR;
+  final String createdAt;
+  final String pEmail;
 
   Pet({
         this.pFirstName,
@@ -32,6 +35,8 @@ class Pet {
         this.petName,
         this.petBreed,
         this.pQR,
+        this.createdAt,
+        this.pEmail,
       });
 }
 
@@ -43,6 +48,8 @@ class Car {
   final String vehicleModel;
   final String plateNumber;
   final String cQR;
+  final String createdAt;
+  final String cEmail;
 
   Car({
     this.cFirstName,
@@ -52,6 +59,8 @@ class Car {
     this.vehicleModel,
     this.plateNumber,
     this.cQR,
+    this.createdAt,
+    this.cEmail
   });
 }
 // List<Post> postList = [

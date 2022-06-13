@@ -38,6 +38,7 @@ class _EventsState extends State<Events> {
                 // temp['postField'][0]['photoUrlProfile'],
                 title: temp['postCaption'],
                 image: temp['photoUrl'],
+                createdAt: temp['createdAt'],
               ));
             });
           }
@@ -46,6 +47,9 @@ class _EventsState extends State<Events> {
           print(postListE);
         });
       }
+      postListE.sort((a, b) {
+        return b.createdAt.compareTo(a.createdAt);
+      });
     });
   }
 

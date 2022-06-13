@@ -15,7 +15,7 @@ import 'package:villboard/services/dataset.dart';
 import '../services/authservice.dart';
 
 List<Pet> petList = [];
-var pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, pQR;
+var pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, pQR, pEmail;
 
 class petprofile extends StatefulWidget {
   const petprofile({ Key key }) : super(key: key);
@@ -85,7 +85,7 @@ class _petprofileState extends State<petprofile> {
     setState(() {
       loading = true;
     });
-    AuthService().postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, userId, pQR).then((val) {
+    AuthService().postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, userId, pQR, pEmail).then((val) {
       petList.clear();
       for (var i = 0; i < val.data.length; i++) {
         var temp = val.data[i];
@@ -99,18 +99,23 @@ class _petprofileState extends State<petprofile> {
               petName: temp['petName'],
               petBreed: temp['petBreed'],
               pQR: temp['pQR'],
+              pEmail:  temp['pEmail'],
+              createdAt:  temp['createdAt'],
             ));
           });
           print(temp);
         }
       }
+      petList.sort((a, b) {
+        return b.createdAt.compareTo(a.createdAt);
+      });
       setState(() {
         loading = false;
       });
     });
   }
 
-  Widget _petList(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, qr){
+  Widget _petList(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, qr, pEmail){
       return  Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
@@ -152,6 +157,24 @@ class _petprofileState extends State<petprofile> {
             SizedBox(height: 5),
             Text(
               pPhoneNumber,
+              style: GoogleFonts.ptSans(
+                fontSize: 19,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Email Address:',
+              style: GoogleFonts.ptSans(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+            SizedBox(height: 5),
+            Text(
+              pEmail == null? "" : pEmail,
               style: GoogleFonts.ptSans(
                 fontSize: 19,
               ),
@@ -275,6 +298,7 @@ class _petprofileState extends State<petprofile> {
               petList[index].petName,
               petList[index].petBreed,
               petList[index].pQR,
+              petList[index].pEmail,
             );
           }
       ),

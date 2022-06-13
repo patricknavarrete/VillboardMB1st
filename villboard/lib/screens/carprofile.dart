@@ -14,7 +14,7 @@ import 'package:villboard/services/dataset.dart';
 
 import '../services/authservice.dart';
 
-var cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, cQR;
+var cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, cQR, cEmail;
 List<Car> carList = [];
 
 class carprofile extends StatefulWidget {
@@ -80,7 +80,7 @@ class _carprofileState extends State<carprofile> {
   Future<void> getCar() async {
     var userId = await StorageUtil.get_id();
     print(userId);
-    AuthService().postCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, userId, cQR).then((val) {
+    AuthService().postCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, userId, cQR, cEmail).then((val) {
       carList.clear();
       for (var i = 0; i < val.data.length; i++) {
         var temp = val.data[i];
@@ -94,12 +94,17 @@ class _carprofileState extends State<carprofile> {
               vehicleModel: temp['vehicleModel'],
               plateNumber: temp['plateNumber'],
               cQR: temp['cQR'],
+              cEmail:  temp['cEmail'],
+              createdAt:  temp['createdAt'],
             ));
           });
         }
         print(val.data);
         print(val.data.length);
       }
+      carList.sort((a, b) {
+        return b.createdAt.compareTo(a.createdAt);
+      });
     });
   }
 
@@ -110,7 +115,7 @@ class _carprofileState extends State<carprofile> {
   }
 
 
-  Widget _carList(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, qr){
+  Widget _carList(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, qr, cEmail){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
@@ -152,6 +157,24 @@ class _carprofileState extends State<carprofile> {
           SizedBox(height: 5),
           Text(
             cPhoneNumber,
+            style: GoogleFonts.ptSans(
+              fontSize: 19,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Email Address:',
+            style: GoogleFonts.ptSans(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            cEmail == null ? "" : cEmail,
             style: GoogleFonts.ptSans(
               fontSize: 19,
             ),
@@ -267,6 +290,7 @@ class _carprofileState extends State<carprofile> {
             carList[index].vehicleModel,
             carList[index].plateNumber,
             carList[index].cQR,
+            carList[index].cEmail,
           );
         }
     ),
