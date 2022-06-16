@@ -171,6 +171,46 @@ class AuthService {
     }
   }
 
+  addFamily(aFirstName, aLastName, aAddress, aEmail, aPhoneNumber, Member,
+      userId) async {
+    try {
+      return await dio.post('https://villauth.herokuapp.com/addFamily',
+          data: {
+            "aFirstName": aFirstName,
+            "aLastName": aLastName,
+            "aEmail": aEmail,
+            "pAddress": aAddress,
+            "aPhoneNumber": aPhoneNumber,
+            "Member": Member,
+            "userID": userId,
+          },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } on DioError catch (e) {
+      Fluttertoast.showToast(
+          msg: e.response.data['msg'],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  postFamily(aFirstName, aLastName, aAddress, aEmail, aPhoneNumber, Member,
+      userId) async {
+    return await dio.post('https://villauth.herokuapp.com/postFamily',
+        data: {
+          "aFirstName": aFirstName,
+          "aLastName": aLastName,
+          "aEmail": aEmail,
+          "pAddress": aAddress,
+          "aPhoneNumber": aPhoneNumber,
+          "Member": Member,
+          "userID": userId,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+  }
+
   postAnnouncement(postField, postCaption, postCategory, photoUrl) async {
     return await dio.post('https://villauth.herokuapp.com/postAnnouncement',
         data: {
@@ -182,7 +222,8 @@ class AuthService {
         options: Options(contentType: Headers.formUrlEncodedContentType));
   }
 
-  postPet( pFirstName, pLastName, pAddress, pPhoneNumber, petName, petBreed, userId, pQR, pEmail) async {
+  postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName, petBreed,
+      userId, pQR, pEmail) async {
     return await dio.post('https://villauth.herokuapp.com/postPet',
         data: {
           "pFirstName": pFirstName,
