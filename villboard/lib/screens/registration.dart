@@ -344,7 +344,9 @@ class _registerState extends State<register> {
                       ),
                       SizedBox(height: 25),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          showDialogFunc();
+                        },
                         child: Container(
                           child: Text('Terms and Conditions',
                               style: GoogleFonts.ptSans(
@@ -457,5 +459,87 @@ class _registerState extends State<register> {
           );
           return dialog;
         });
+  }
+
+  showDialogFunc() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: Material(
+            type: MaterialType.transparency,
+            child: SingleChildScrollView(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(15),
+                width: MediaQuery.of(context).size.width - 80,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("Terms and Conditions", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text("Please read these Terms and Conditions of Use carefully " +
+                        "Villboard application and our website www.villboardapp.com the application is operated by the Villa Cares – sta. rosa laguna " +
+                        "your access to and use of the service is conditioned on your acceptance and compliance with these terms. These terms apply to all visitors, " +
+                        "homeowners who access our mobile and web application.  \n \n" +
+
+                        "The Villboard collect your personal information to upon registration so you can " +
+                        "have access to the application “Personal Information” may include the following: " +
+
+                        "Your Name, Home address, e-mail address, contact information" +
+                        "and other information from which your identity is apparent or can be reasonably and directly ascertained. Personal data collected shall be used " +
+                        "by the company and only within the mobile application, and web server. By default, user’s personal information is only shown for the user itself. " +
+                        "It will be discretion of the user to make personal information visible to other user as well within the application. Only the person in charge in " +
+                        "handling the admin side of the Application and Web will be the one who can be able to see your personal information. But in QR code you get when" +
+                        "you registered your PET and/or VEHICLE, your information will be seen by someone who scanned the QR Code. \n \n" +
+
+                        "They govern and apply to your access and use" +
+                        "of the services offered through the VillBoard Application. By accessing or using the VillBoard Application or the Village website, you agree to comply " +
+                        "with and be bound by all the Terms and Conditions described below. If you do not agree to these Terms and Conditions, you are not authorized to use the " +
+                        "VillBoard Application. \n " +
+
+                        "Your right to use the VillBoard Application will need to be approved by the Company and the Company may remove your right to "+
+                        "use the VillBoard Application at any time by revoking your Validly Issued Login. \n ",
+                        style: TextStyle(fontSize: 16, height: 1.5), textAlign: TextAlign.justify, ),
+
+                        Text("Data Privacy \n ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                        Text("VillBoard is committed to protecting your right to privacy. We give utmost importance to data protection wherein all personal information shall be handled "+
+                            "with confidentiality and security. Thus, VillBoard commits to ensure that all personal data obtained either manually or electronically. "+
+                            "The Information Collected will be stored in remote third-party database (MongoDB) which is securely stored as per their privacy policy – MongoDB., Inc. is committed in protecting your privacy. \n \n" +
+
+                            "We only collect your personal information with your knowledge and permission. All data gathered will be used for the purpose of sending information, updates",
+                            style: TextStyle(fontSize: 15, height: 1.5), textAlign: TextAlign.justify),
+
+
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.all(20),
+                      child: FlatButton(
+                        child: Text('OK'),
+                        color: Colors.green,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
