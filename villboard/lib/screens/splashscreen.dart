@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:villboard/screens/homepage.dart';
 import 'dart:async';
 import 'package:villboard/screens/login.dart';
 
+import '../services/sharedpref.dart';
 
 class splashscreen extends StatefulWidget {
   splashscreen({Key key}) : super(key: key);
@@ -29,10 +31,15 @@ class _splashscreenState extends State<splashscreen> {
   return new Timer(duration, route);
 }
 route() {
+    StorageUtil.getemail() == null ?
     Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) => loginscreen()
       )
-    ); 
+    ):
+     Navigator.push(
+         context,
+         MaterialPageRoute(
+             builder: (context) => Dashboard()));
   }
   initScreen(BuildContext context) {
     return Scaffold(

@@ -28,9 +28,12 @@ class _DogRegistrationState extends State<DogRegistration> {
   var pNumber = TextEditingController();
   var pName = TextEditingController();
   var pBreed = TextEditingController();
-  var userEmail = TextEditingController();
+ // var userEmail = TextEditingController();
 
   var loading = false;
+
+  bool valuefirst = false;
+  bool valuefirstCheck = false;
 
   var pFirstName ="", pLastName="", pAddress="", pPhoneNumber="", petName="", petBreed="", email="", userId;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
@@ -86,7 +89,7 @@ class _DogRegistrationState extends State<DogRegistration> {
     pNumber.clear();
     pName.clear();
     pBreed.clear();
-    userEmail.clear();
+  //  userEmail.clear();
 
     pFirstName="";
     pLastName="";
@@ -94,7 +97,10 @@ class _DogRegistrationState extends State<DogRegistration> {
     pPhoneNumber="";
     petName="";
     petBreed="";
-    email="";
+//    email="";
+
+    valuefirst = false;
+    valuefirstCheck = false;
   }
 
 
@@ -124,7 +130,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                     height: 20,
                   ),
                   Image.asset('images/paw.png',
-                      height: 50, width: 50, color: Colors.black),
+                      height: 50, width: 50, color: Colors.green[200]),
                   SizedBox(
                     height: 10,
                   ),
@@ -156,10 +162,10 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   ),
                                 ]
                             ),
-                            SizedBox(height: 5),
+                            SizedBox(height: 10),
                             Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: fName,
                                 style: TextStyle(
@@ -168,13 +174,17 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.person,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "First Name",
@@ -199,7 +209,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                                     pFirstName = pFirstName;
                                     pLastName = pLastName;
                                     pAddress = pAddress;
-                                    email = email;
+                               //     email = email;
                                     pPhoneNumber = pPhoneNumber;
                                     petName = petName;
                                     petBreed = petBreed;
@@ -208,7 +218,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: lName,
                                 style: TextStyle(
@@ -217,13 +227,17 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.person,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Last Name",
@@ -238,7 +252,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                                     pFirstName = pFirstName;
                                     pLastName = pLastName;
                                     pAddress = pAddress;
-                                    email = email;
+                                  //  email = email;
                                     pPhoneNumber = pPhoneNumber;
                                     petName = petName;
                                     petBreed = petBreed;
@@ -256,8 +270,8 @@ class _DogRegistrationState extends State<DogRegistration> {
                                 },
                               ),
                             ),
-                            Container(
-                              padding:EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                         /*   Container(
+                              padding:EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: userEmail,
                                 style: TextStyle(
@@ -266,13 +280,17 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.email,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Email Address",
@@ -287,7 +305,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                                     pFirstName = pFirstName;
                                     pLastName = pLastName;
                                     pAddress = pAddress;
-                                    email = email;
+                                  //  email = email;
                                     pPhoneNumber = pPhoneNumber;
                                     petName = petName;
                                     petBreed = petBreed;
@@ -304,9 +322,9 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   return null;
                                 },
                               ),
-                            ),
+                            ),*/
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: address,
                                 style: TextStyle(
@@ -315,13 +333,17 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.location_on,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Address",
@@ -346,12 +368,15 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   if (val.isEmpty) {
                                     return "Address is required";
                                   }
+                                  if (!RegExp(r'^([\w,:\s/.-]*)$').hasMatch(val)) {
+                                    return "Please check your Address";
+                                  }
                                   return null;
                                 },
                               ),
                             ),
                             Container(
-                              padding:EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              padding:EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: pNumber,
                                 style: TextStyle(
@@ -360,28 +385,33 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.phone,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Phone Number",
+                                    prefixText: '+63',
                                     labelStyle: TextStyle(
                                       fontSize: 15,
                                       color: Colors.grey[400],
                                       fontWeight: FontWeight.w800,
                                     )),
                                 onChanged: (val) {
-                                  pPhoneNumber = val;
+                                  pPhoneNumber = "+63" + val;
                                   setState(() {
                                     pFirstName = pFirstName;
                                     pLastName = pLastName;
                                     pAddress = pAddress;
-                                    email = email;
+                                  //  email = email;
                                     pPhoneNumber = pPhoneNumber;
                                     petName = petName;
                                     petBreed = petBreed;
@@ -391,7 +421,8 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   if (val.isEmpty) {
                                     return "Phone Number is required";
                                   }
-                                  if (!RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
+                                  // r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$'
+                                  if (!RegExp(r'^[0-9]{10}$')
                                       .hasMatch(val)) {
                                     return "Please check your Phone Number";
                                   }
@@ -400,7 +431,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                               ),
                             ),
 
-                            SizedBox(height: 5),
+                            SizedBox(height: 15),
                             Row(
                                 children: <Widget>[
                                   Expanded(
@@ -418,10 +449,10 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   ),
                                 ]
                             ),
-                            SizedBox(height: 5),
+                            SizedBox(height: 10),
 
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: pName,
                                 style: TextStyle(
@@ -430,13 +461,17 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.pets,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Pet Name",
@@ -451,7 +486,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                                     pFirstName = pFirstName;
                                     pLastName = pLastName;
                                     pAddress = pAddress;
-                                    email = email;
+                                   // email = email;
                                     pPhoneNumber = pPhoneNumber;
                                     petName = petName;
                                     petBreed = petBreed;
@@ -461,12 +496,16 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   if (val.isEmpty) {
                                     return "Pet Name is required";
                                   }
+                                  if (RegExp(r'[!@#<>?":_`~;{}$[\]/\\|=+)(*&^%0-9]')
+                                      .hasMatch(val)) {
+                                    return "Please check your Pet Name";
+                                  }
                                   return null;
                                 },
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: pBreed,
                                 style: TextStyle(
@@ -475,13 +514,17 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.pets,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Pet Breed",
@@ -496,7 +539,7 @@ class _DogRegistrationState extends State<DogRegistration> {
                                     pFirstName = pFirstName;
                                     pLastName = pLastName;
                                     pAddress = pAddress;
-                                    email = email;
+                                  //  email = email;
                                     pPhoneNumber = pPhoneNumber;
                                     petName = petName;
                                     petBreed = petBreed;
@@ -505,6 +548,10 @@ class _DogRegistrationState extends State<DogRegistration> {
                                 validator: (String val) {
                                   if (val.isEmpty) {
                                     return "Pet Breed is required";
+                                  }
+                                  if (RegExp(r'[!@#<>?":_`~;{}$[\]/\\|=+)(*&^%0-9]')
+                                      .hasMatch(val)) {
+                                    return "Please check your Pet Breed";
                                   }
                                   return null;
                                 },
@@ -598,23 +645,48 @@ class _DogRegistrationState extends State<DogRegistration> {
                             ),
                             */
 
-                            SizedBox(height: 20),
-                            GestureDetector(
-                              onTap: () {
-                                showTermandCond();
-                              },
-                              child: Container(
-                                child: Text('Terms and Conditions',
-                                    style: GoogleFonts.ptSans(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: greenColor,
-                                    )),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            width: 1, color: Colors.green))),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                    checkColor: Colors.green,
+                                    activeColor: Colors.white,
+                                    value: valuefirst,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        valuefirst = value;
+                                      });
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showTermandCond();
+                                    },
+                                    child: Container(
+                                      child: Text('Terms and Conditions',
+                                          style: GoogleFonts.ptSans(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: greenColor,
+                                            decoration: TextDecoration.underline, decorationThickness: 3,
+                                          )),
+                                    ),
+                                  ),
+                                ],
                               ),
+                            ),
+                            valuefirstCheck == false ? Container() :
+                            Column(
+                              children: [
+                                SizedBox(height: 5),
+                                Text("Please check Terms and Condition",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 13),
+                                ),
+                              ],
                             ),
                             /*  SizedBox(
                           height: 50,
@@ -651,11 +723,11 @@ class _DogRegistrationState extends State<DogRegistration> {
                             },
                           ),
                         ),*/
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
                             loading == true ? CircularProgressIndicator(color: Colors.green,):
                             SizedBox(
                               height: 50,
-                              width: 200,
+                              width: MediaQuery.of(context).size.width-90,
                               child: FlatButton(
                                 color: Colors.green,
                                 textColor: Colors.white,
@@ -668,15 +740,13 @@ class _DogRegistrationState extends State<DogRegistration> {
                                       pFirstName +
                                       " Last Name: " +
                                       pLastName +
-                                      "Email Address: " +
-                                      email +
-                                      "Address: " +
+                                      " Address: " +
                                       pAddress +
-                                      "Contact Number: " +
+                                      " Contact Number: " +
                                       pPhoneNumber +
-                                      "Pet Name: " +
+                                      " Pet Name: " +
                                       petName +
-                                      "Pet Breed: " +
+                                      " Pet Breed: " +
                                       petBreed;
 
                                   print("First Name : " + pFirstName);
@@ -685,13 +755,12 @@ class _DogRegistrationState extends State<DogRegistration> {
                                   print("Phone Number : " +pPhoneNumber);
                                   print("Pet Name : " +petName);
                                   print("Pet Breed : " +petBreed);
-                                  print("Email :  " +email);
                                   print("User ID :" +userId);
                                   print("QR Code : " +qrCode);
-                                  if (_form.currentState.validate()) {
+                                  if (_form.currentState.validate() && valuefirst != false) {
                                     AuthService()
                                         .addPet(pFirstName, pLastName, pAddress,
-                                        pPhoneNumber, petName, petBreed, email, userId, qrCode)
+                                        pPhoneNumber, petName, petBreed, userId, qrCode)
                                         .then((val) {
                                           print(val.data);
                                           if(val.data['success']){
@@ -721,6 +790,16 @@ class _DogRegistrationState extends State<DogRegistration> {
                                           }
                                     });
                                   } else {
+                                    if(valuefirst == false){
+                                      setState(() {
+                                        valuefirstCheck = true;
+                                      });
+                                    }
+                                    else{
+                                      setState(() {
+                                        valuefirstCheck = false;
+                                      });
+                                    }
                                     print("UnSuccessfull");
                                     setState(() {
                                       loading = false;

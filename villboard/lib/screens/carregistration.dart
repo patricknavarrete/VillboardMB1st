@@ -5,6 +5,7 @@ import 'package:villboard/services/color.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:villboard/services/authservice.dart';
 import 'package:villboard/services/sharedpref.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class CarRegistration extends StatefulWidget {
   @override
@@ -24,6 +25,9 @@ class _CarRegistrationState extends State<CarRegistration> {
 
   var loading = false;
 
+  bool valuefirst = false;
+  bool valuefirstCheck = false;
+
   var cFirstName = "",
       cLastName = "",
       cAddress = "",
@@ -40,7 +44,7 @@ class _CarRegistrationState extends State<CarRegistration> {
     pNumber.clear();
     vModel.clear();
     vPNumber.clear();
-    userEmail.clear();
+  //  userEmail.clear();
 
     cFirstName="";
     cLastName="";
@@ -48,7 +52,9 @@ class _CarRegistrationState extends State<CarRegistration> {
     cPhoneNumber="";
     vehicleModel="";
     plateNumber="";
-    cEmail="";
+ //   cEmail="";
+    valuefirst = false;
+    valuefirstCheck = false;
   }
 
 
@@ -79,7 +85,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                     height: 20,
                   ),
                   Image.asset('images/car.png',
-                      height: 50, width: 50, color: Colors.black),
+                      height: 50, width: 50, color: Colors.green[200]),
                   SizedBox(
                     height: 10,
                   ),
@@ -112,11 +118,11 @@ class _CarRegistrationState extends State<CarRegistration> {
                                 ]
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 15,
                             ),
                             Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: fName,
                                 style: TextStyle(
@@ -125,13 +131,17 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.person,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "First Name",
@@ -149,7 +159,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                                     cPhoneNumber = cPhoneNumber;
                                     vehicleModel = vehicleModel;
                                     plateNumber = plateNumber;
-                                    cEmail = cEmail;
+                                //    cEmail = cEmail;
                                   });
                                 },
                                 validator: (String val) {
@@ -166,7 +176,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                             ),
                             Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: lName,
                                 style: TextStyle(
@@ -175,13 +185,17 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.person,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Last Name",
@@ -199,7 +213,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                                     cPhoneNumber = cPhoneNumber;
                                     vehicleModel = vehicleModel;
                                     plateNumber = plateNumber;
-                                    cEmail = cEmail;
+                                   // cEmail = cEmail;
                                   });
                                 },
                                 validator: (String val) {
@@ -214,9 +228,9 @@ class _CarRegistrationState extends State<CarRegistration> {
                                 },
                               ),
                             ),
-                            Container(
+                       /*     Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: userEmail,
                                 style: TextStyle(
@@ -225,13 +239,17 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.email,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Email Address",
@@ -263,10 +281,10 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   return null;
                                 },
                               ),
-                            ),
+                            ),*/
                             Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: address,
                                 style: TextStyle(
@@ -275,13 +293,17 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.location_on,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Address",
@@ -299,12 +321,15 @@ class _CarRegistrationState extends State<CarRegistration> {
                                     cPhoneNumber = cPhoneNumber;
                                     vehicleModel = vehicleModel;
                                     plateNumber = plateNumber;
-                                    cEmail = cEmail;
+                                   // cEmail = cEmail;
                                   });
                                 },
                                 validator: (String val) {
                                   if (val.isEmpty) {
                                     return "Address is required";
+                                  }
+                                  if (!RegExp(r'^([\w,:\s/.-]*)$').hasMatch(val)) {
+                                    return "Please check your Address";
                                   }
                                   return null;
                                 },
@@ -312,7 +337,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                             ),
                             Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: pNumber,
                                 style: TextStyle(
@@ -321,23 +346,28 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.phone,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Phone Number",
+                                    prefixText: '+63',
                                     labelStyle: TextStyle(
                                       fontSize: 15,
                                       color: Colors.grey[400],
                                       fontWeight: FontWeight.w800,
                                     )),
                                 onChanged: (val) {
-                                  cPhoneNumber = val;
+                                  cPhoneNumber = "+63" + val;
                                   setState(() {
                                     cFirstName = cFirstName;
                                     cLastName = cLastName;
@@ -345,14 +375,15 @@ class _CarRegistrationState extends State<CarRegistration> {
                                     cPhoneNumber = cPhoneNumber;
                                     vehicleModel = vehicleModel;
                                     plateNumber = plateNumber;
-                                    cEmail = cEmail;
+                                   // cEmail = cEmail;
                                   });
                                 },
                                 validator: (String val) {
                                   if (val.isEmpty) {
                                     return "Phone is required";
                                   }
-                                  if (!RegExp(r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')
+                                  // r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$'
+                                  if (!RegExp(r'^[0-9]{10}$')
                                       .hasMatch(val)) {
                                     return "Please check your Phone Number";
                                   }
@@ -385,7 +416,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                             ),
                             Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: vModel,
                                 style: TextStyle(
@@ -394,13 +425,17 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.car_rental,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Vehicle Model",
@@ -418,12 +453,16 @@ class _CarRegistrationState extends State<CarRegistration> {
                                     cPhoneNumber = cPhoneNumber;
                                     vehicleModel = vehicleModel;
                                     plateNumber = plateNumber;
-                                    cEmail = cEmail;
+                                //    cEmail = cEmail;
                                   });
                                 },
                                 validator: (String val) {
                                   if (val.isEmpty) {
                                     return "Vehicle Model is required";
+                                  }
+                                  if (RegExp(r'[!@#<>?":_`~;{}$[\]/\\|=+)(*&^%0-9]')
+                                      .hasMatch(val)) {
+                                    return "Please check your Vehicle Model (Letters Only)";
                                   }
                                   return null;
                                 },
@@ -431,7 +470,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                             ),
                             Container(
                               padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               child: TextFormField(
                                 controller: vPNumber,
                                 style: TextStyle(
@@ -440,13 +479,17 @@ class _CarRegistrationState extends State<CarRegistration> {
                                   fontSize: 15,
                                 ),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    border: new OutlineInputBorder(
+                                      borderSide: new BorderSide(color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                     errorBorder: new OutlineInputBorder(
                                       borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                     prefixIcon: Icon(
                                       Icons.car_rental_outlined,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     labelText: "Plate Number",
@@ -464,7 +507,7 @@ class _CarRegistrationState extends State<CarRegistration> {
                                     cPhoneNumber = cPhoneNumber;
                                     vehicleModel = vehicleModel;
                                     plateNumber = plateNumber;
-                                    cEmail = cEmail;
+                                  //  cEmail = cEmail;
                                   });
                                 },
                                 validator: (String val) {
@@ -505,24 +548,48 @@ class _CarRegistrationState extends State<CarRegistration> {
                                 )),
                             */
 
-
-                            SizedBox(height: 20),
-                            GestureDetector(
-                              onTap: () {
-                                showTermandCond();
-                              },
-                              child: Container(
-                                child: Text('Terms and Conditions',
-                                    style: GoogleFonts.ptSans(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: greenColor,
-                                    )),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            width: 1, color: Colors.green))),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                    checkColor: Colors.green,
+                                    activeColor: Colors.white,
+                                    value: valuefirst,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        valuefirst = value;
+                                      });
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showTermandCond();
+                                    },
+                                    child: Container(
+                                      child: Text('Terms and Conditions',
+                                          style: GoogleFonts.ptSans(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: greenColor,
+                                            decoration: TextDecoration.underline, decorationThickness: 3,
+                                          )),
+                                    ),
+                                  ),
+                                ],
                               ),
+                            ),
+                            valuefirstCheck == false ? Container() :
+                            Column(
+                              children: [
+                                SizedBox(height: 5),
+                                Text("Please check Terms and Condition",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 13),
+                                ),
+                              ],
                             ),
                             /*   SizedBox(
                           height: 50,
@@ -559,11 +626,11 @@ class _CarRegistrationState extends State<CarRegistration> {
                             },
                           ),
                         ),*/
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
                             loading == true ? CircularProgressIndicator(color: Colors.green,):
                             SizedBox(
                               height: 50,
-                              width: 200,
+                              width: MediaQuery.of(context).size.width-90,
                               child: FlatButton(
                                 color: Colors.green,
                                 textColor: Colors.white,
@@ -576,17 +643,15 @@ class _CarRegistrationState extends State<CarRegistration> {
                                       cFirstName +
                                       " Last Name: " +
                                       cLastName +
-                                      "Email Address: " +
-                                      cEmail +
-                                      "Address: " +
+                                      " Address: " +
                                       cAddress +
-                                      "Contact Number: " +
+                                      " Contact Number: " +
                                       cPhoneNumber +
-                                      "Vehicle Modal: " +
+                                      " Vehicle Model: " +
                                       vehicleModel +
-                                      "Plate Number: " +
+                                      " Plate Number: " +
                                       plateNumber;
-                                  if (_form.currentState.validate()) {
+                                  if (_form.currentState.validate() && valuefirst != false) {
                                     AuthService()
                                         .addCar(
                                       cFirstName,
@@ -595,11 +660,9 @@ class _CarRegistrationState extends State<CarRegistration> {
                                       cPhoneNumber,
                                       vehicleModel,
                                       plateNumber,
-                                      cEmail,
                                       userId,
                                       qrCode,
-                                    )
-                                        .then((val) {
+                                    ).then((val) {
                                           print(val.data);
                                           if(val.data['success']){
                                             clearTextField();
@@ -628,6 +691,16 @@ class _CarRegistrationState extends State<CarRegistration> {
                                           }
                                     });
                                   } else {
+                                    if(valuefirst == false){
+                                      setState(() {
+                                        valuefirstCheck = true;
+                                      });
+                                    }
+                                    else{
+                                      setState(() {
+                                        valuefirstCheck = false;
+                                      });
+                                    }
                                     print("UnSuccessfull");
                                     setState(() {
                                       loading = false;

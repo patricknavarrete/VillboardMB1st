@@ -60,13 +60,13 @@ class _suggestionboxState extends State<suggestionbox> {
                             color: Colors.black),
                       ),
                       SizedBox(
-                        height: 30.0,
+                        height: 20.0,
                       ),
                       Container(
                         child: Form(
                           key: _form,
                           child: Padding(
-                            padding: EdgeInsets.all(30.0),
+                            padding: EdgeInsets.all(10.0),
                             child: Column(
                               children: <Widget>[
                                   Container(
@@ -76,10 +76,9 @@ class _suggestionboxState extends State<suggestionbox> {
                                         borderRadius: BorderRadius.circular(12),
                                         boxShadow: [
                                           BoxShadow(
-                                              color: Color.fromRGBO(
-                                                  143, 148, 251, .2),
-                                              blurRadius: 20.0,
-                                              offset: Offset(0, 10))
+                                              color: Colors.grey,
+                                              blurRadius: 10.0,
+                                              offset: Offset(0, 5))
                                         ]),
                                     child: Column(
                                       children: <Widget>[
@@ -97,6 +96,7 @@ class _suggestionboxState extends State<suggestionbox> {
                                               border: InputBorder.none,
                                               errorBorder: new OutlineInputBorder(
                                                 borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                                borderRadius: BorderRadius.circular(15),
                                               ),
                                               hintText: "Name",
                                               hintStyle: TextStyle(
@@ -108,6 +108,10 @@ class _suggestionboxState extends State<suggestionbox> {
                                             validator: (String val) {
                                               if (val.isEmpty) {
                                                 return "Name is required";
+                                              }
+                                              if (RegExp(r'[!@#<>?":_`~;{}$[\]/\\|=+)(*&^%0-9]')
+                                                  .hasMatch(val)) {
+                                                return "Please check your Name";
                                               }
                                               return null;
                                             },
@@ -123,10 +127,13 @@ class _suggestionboxState extends State<suggestionbox> {
                                           ),
                                           child: TextFormField(
                                             controller: suggest,
+                                            keyboardType: TextInputType.multiline,
+                                            maxLines: null,
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                               errorBorder: new OutlineInputBorder(
                                                 borderSide: new BorderSide(color: Colors.red, width: 2.0),
+                                                borderRadius: BorderRadius.circular(15),
                                               ),
                                               hintText: "Suggestions",
                                               hintStyle: TextStyle(
@@ -150,7 +157,7 @@ class _suggestionboxState extends State<suggestionbox> {
                                               minWidth: 200,
                                               height: 50,
                                               child: RaisedButton(
-                                                  child: Text('Submit'),
+                                                  child: Text('Submit', style: TextStyle(color: Colors.white),),
                                                   color: greenColor,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:

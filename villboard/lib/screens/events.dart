@@ -66,7 +66,21 @@ class _EventsState extends State<Events> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
-      body: loading == true ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, color: Colors.green),) : LiquidPullToRefresh(
+      body: loading == true ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, color: Colors.green),) :
+      postListE.length == 0 ?
+      Container(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.event,color: Colors.blueGrey[100], size: 150,),
+              Text('No Events', style: TextStyle(color: Colors.white, fontSize: 15),),
+            ],
+          ),
+        ),
+      )
+          :
+      LiquidPullToRefresh(
         onRefresh: temp,
         showChildOpacityTransition: false,
         color: greenColor,
@@ -74,6 +88,8 @@ class _EventsState extends State<Events> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: 20,),
+            Text("Pull down to Refresh List", style: TextStyle(color: Colors.white),),
             Flexible(
               child: PostWidget(),
             )
@@ -112,12 +128,24 @@ class PostWidget extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        width: 48,
+                      postListE[index].profile != null && postListE[index].profile != ""?
+                      CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        radius: 27.0,
                         child: CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(postListE[index].profile),
-                          radius: 26,
+                          backgroundColor: Colors.white,
+                          radius: 26.0,
+                          backgroundImage: NetworkImage(postListE[index].profile),
+                        ),
+                      ):
+                      CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        radius: 27.0,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.blueGrey,
+                          radius: 26.0,
+                          child: Text(postListE[index].name[0],
+                              style: TextStyle(color: Colors.white, fontSize: 35)),
                         ),
                       ),
                       Padding(
@@ -145,7 +173,7 @@ class PostWidget extends StatelessWidget {
                 style: TextStyle(color: Colors.black, fontSize: 16),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               postListE[index].image == null ? Container() :
               Center(

@@ -63,6 +63,29 @@ class Car {
     this.cEmail
   });
 }
+
+
+class Member {
+  final String aFirstName;
+  final String aLastName;
+  final String aAddress;
+  final String aPhoneNumber;
+  final String userID;
+  final String createdAt;
+  final String aEmail;
+  final String member;
+
+  Member({
+    this.aFirstName,
+    this.aLastName,
+    this.aAddress,
+    this.aPhoneNumber,
+    this.userID,
+    this.createdAt,
+    this.aEmail,
+    this.member
+  });
+}
 // List<Post> postList = [
   
 //   Post(

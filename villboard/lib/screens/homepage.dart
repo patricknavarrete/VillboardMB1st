@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:villboard/screens/about.dart';
 import 'package:villboard/screens/blogpage.dart';
@@ -51,6 +52,9 @@ class _DashboardState extends State<Dashboard>
     super.dispose();
   }
 
+  String em = StorageUtil.getemail() ?? '';
+
+
   Future<bool> logoutDialog() {
     return showDialog(
       context: context,
@@ -61,11 +65,21 @@ class _DashboardState extends State<Dashboard>
           FlatButton(
             child: Text('Logout'),
             onPressed: () async {
-              SharedPreferences preference =
-                  await SharedPreferences.getInstance();
-              preference?.clear();
+              AuthService().logout(em).then((val) {
+                Fluttertoast.showToast(
+                    msg: val.data['msg'],
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              });
+              SharedPreferences preference = await SharedPreferences.getInstance();
+              preference.clear();
+
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => loginscreen()));
+
             },
           ),
           FlatButton(
@@ -80,6 +94,8 @@ class _DashboardState extends State<Dashboard>
   }
 
   String fname = StorageUtil.getfirstName() ?? '';
+  String lname = StorageUtil.getlastName() ?? '';
+  String profilePic = StorageUtil.get_profilePic() ?? '';
 
   int currentState = 0;
   List<Widget> widgets = [
@@ -104,16 +120,27 @@ class _DashboardState extends State<Dashboard>
                   DrawerHeader(
                     child: Column(
                       children: <Widget>[
-                        Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('images/Profile.png'),
-                                fit: BoxFit.fill),
-                            borderRadius: BorderRadius.circular(50),
+                      profilePic != null && profilePic != "" ?
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 52.0,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.green[100],
+                          radius: 50.0,
+                          backgroundImage: NetworkImage(profilePic),
+                        ),
+                      ):
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 52.0,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.blueGrey,
+                            radius: 50.0,
+                            child: Text(fname[0] +  lname[0],
+                                style: TextStyle(color: Colors.white, fontSize: 35)),
                           ),
                         ),
+
                         SizedBox(
                           height: 10,
                         ),

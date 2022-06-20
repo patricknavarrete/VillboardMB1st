@@ -15,7 +15,6 @@ import 'package:villboard/services/dataset.dart';
 import '../services/authservice.dart';
 
 var cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, cQR, cEmail;
-List<Car> carList = [];
 bool loading = true;
 
 class carprofile extends StatefulWidget {
@@ -26,7 +25,7 @@ class carprofile extends StatefulWidget {
 }
 
 class _carprofileState extends State<carprofile> {
-
+  List<Car> carList = [];
   Future<void> writeToFile(ByteData data, String path) async {
     final buffer = data.buffer;
     await File(path).writeAsBytes(
@@ -81,7 +80,7 @@ class _carprofileState extends State<carprofile> {
   Future<void> getCar() async {
     var userId = await StorageUtil.get_id();
     print(userId);
-    AuthService().postCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, userId, cQR, cEmail).then((val) {
+    AuthService().postCar(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, userId, cQR).then((val) {
       carList.clear();
       for (var i = 0; i < val.data.length; i++) {
         var temp = val.data[i];
@@ -95,7 +94,7 @@ class _carprofileState extends State<carprofile> {
               vehicleModel: temp['vehicleModel'],
               plateNumber: temp['plateNumber'],
               cQR: temp['cQR'],
-              cEmail:  temp['cEmail'],
+           //   cEmail:  temp['cEmail'],
               createdAt:  temp['createdAt'],
             ));
           });
@@ -119,19 +118,42 @@ class _carprofileState extends State<carprofile> {
   }
 
 
-  Widget _carList(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, qr, cEmail){
+  Widget _carList(cFirstName, cLastName, cAddress, cPhoneNumber, vehicleModel, plateNumber, qr){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Center(
-            child: CircleAvatar(
-              backgroundImage: AssetImage('images/carcar.jpg'),
-              radius: 50.0,
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Icon(Icons.car_repair,color:  Colors.green[200], size: 80,),
+              ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    vehicleModel + " - ",
+                    style: GoogleFonts.ptSans(
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    plateNumber,
+                    style: GoogleFonts.ptSans(
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-          SizedBox(height: 25),
+          SizedBox(height: 20),
           Text(
             'Car Owners Name:',
             style: GoogleFonts.ptSans(
@@ -168,7 +190,7 @@ class _carprofileState extends State<carprofile> {
           SizedBox(
             height: 10,
           ),
-          Text(
+       /*   Text(
             'Email Address:',
             style: GoogleFonts.ptSans(
               fontSize: 19,
@@ -185,7 +207,7 @@ class _carprofileState extends State<carprofile> {
           ),
           SizedBox(
             height: 10,
-          ),
+          ),*/
           Text(
             'Address:',
             style: GoogleFonts.ptSans(
@@ -202,48 +224,14 @@ class _carprofileState extends State<carprofile> {
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 15,
           ),
-          Text(
-            'Car Model',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            vehicleModel,
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Plate Number',
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            plateNumber,
-            style: GoogleFonts.ptSans(
-              fontSize: 19,
-            ),
-          ),
-          SizedBox(height: 15),
           qr == null ? Container() :
           SizedBox(
             height: 40,
             child: RaisedButton(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Text("QR Code"),
               color: Colors.green,
@@ -295,7 +283,7 @@ class _carprofileState extends State<carprofile> {
             carList[index].vehicleModel,
             carList[index].plateNumber,
             carList[index].cQR,
-            carList[index].cEmail,
+          //  carList[index].cEmail,
           );
         }
     ),

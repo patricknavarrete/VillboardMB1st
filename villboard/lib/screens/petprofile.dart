@@ -14,7 +14,6 @@ import 'package:villboard/services/dataset.dart';
 
 import '../services/authservice.dart';
 
-List<Pet> petList = [];
 var pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, pQR, pEmail;
 bool loading = true;
 
@@ -26,6 +25,7 @@ class petprofile extends StatefulWidget {
 }
 
 class _petprofileState extends State<petprofile> {
+  List<Pet> petList = [];
 
   String pn = StorageUtil.getphoneNumber() ?? '';
   String fname = StorageUtil.getfirstName() ?? '';
@@ -81,7 +81,7 @@ class _petprofileState extends State<petprofile> {
   Future<void> getPet() async {
     var userId = await StorageUtil.get_id();
     print(userId);
-    AuthService().postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, userId, pQR, pEmail).then((val) {
+    AuthService().postPet(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, userId, pQR).then((val) {
       petList.clear();
       for (var i = 0; i < val.data.length; i++) {
         var temp = val.data[i];
@@ -95,7 +95,7 @@ class _petprofileState extends State<petprofile> {
               petName: temp['petName'],
               petBreed: temp['petBreed'],
               pQR: temp['pQR'],
-              pEmail:  temp['pEmail'],
+             // pEmail:  temp['pEmail'],
               createdAt:  temp['createdAt'],
             ));
           });
@@ -111,21 +111,31 @@ class _petprofileState extends State<petprofile> {
     });
   }
 
-  Widget _petList(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, qr, pEmail){
+  Widget _petList(pFirstName, pLastName, pAddress, pPhoneNumber, petName,petBreed, qr){
       return  Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Center(
-              child: CircleAvatar(
-                  backgroundImage: AssetImage('images/petpic.jpg'),
-                  radius: 50.0,
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Icon(Icons.pets,color: Colors.green[200], size: 80,),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  petName,
+                  style: GoogleFonts.ptSans(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 25),
+            SizedBox(height: 20),
             Text(
-              'Pet Owners Name:',
+              'Pet Owner Name:',
               style: GoogleFonts.ptSans(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,
@@ -157,7 +167,7 @@ class _petprofileState extends State<petprofile> {
                 fontSize: 19,
               ),
             ),
-            SizedBox(
+     /*       SizedBox(
               height: 10,
             ),
             Text(
@@ -174,7 +184,7 @@ class _petprofileState extends State<petprofile> {
               style: GoogleFonts.ptSans(
                 fontSize: 19,
               ),
-            ),
+            ),*/
             SizedBox(
               height: 10,
             ),
@@ -189,24 +199,6 @@ class _petprofileState extends State<petprofile> {
             SizedBox(height: 5),
             Text(
               pAddress,
-              style: GoogleFonts.ptSans(
-                fontSize: 19,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Pet Name',
-              style: GoogleFonts.ptSans(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              petName,
               style: GoogleFonts.ptSans(
                 fontSize: 19,
               ),
@@ -236,7 +228,7 @@ class _petprofileState extends State<petprofile> {
               height: 40,
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text("QR Code"),
                 color: Colors.green,
@@ -295,7 +287,7 @@ class _petprofileState extends State<petprofile> {
               petList[index].petName,
               petList[index].petBreed,
               petList[index].pQR,
-              petList[index].pEmail,
+           //   petList[index].pEmail,
             );
           }
       ),

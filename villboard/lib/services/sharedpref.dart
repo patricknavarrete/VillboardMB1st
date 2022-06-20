@@ -12,6 +12,7 @@ class StorageUtil {
   static const IDpetField = 'petField';
   static const IDcarField = 'carField';
   static const ID_id = '_id';
+  static const ID_profilePic = 'profilePic';
 
   static Future init() async {
     preferences = await SharedPreferences.getInstance();
@@ -61,4 +62,9 @@ class StorageUtil {
       await preferences.setString(ID_id, _id);
 
   static String get_id() => preferences.getString(ID_id);
+
+  static Future set_profilePic(String profilePic) async =>
+      await preferences.setString(ID_profilePic, profilePic);
+
+  static String get_profilePic() => preferences.getString(ID_profilePic);
 }
