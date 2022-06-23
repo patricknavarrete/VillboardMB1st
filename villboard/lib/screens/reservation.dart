@@ -66,6 +66,7 @@ class _reservationState extends State<reservation> {
             reservationTime: temp['reservationTime'],
           ));
         });
+
         print(reserveList[x].venue + reserveList[x].reservationDate +
             reserveList[x].reservationTime);
         /* if(temp['venue'] == "Clubhouse" || temp['venue'] == "Club House" && formattedDate == dateNoww &&  temp['reservationTime'] == "6:00am - 8:00am"){
@@ -488,6 +489,7 @@ class _reservationState extends State<reservation> {
                                 setState(() {
                                   venue = val;
                                   check = "";
+                                  newTime = null;
 
                                   unselectableDates.clear();
                                   int reserveTimeGetCH = 0;
@@ -759,6 +761,7 @@ class _reservationState extends State<reservation> {
                                   print("done checking..");
                                   print(reserved);
                                   if (reserved != 0) {
+                                    getTimeData();
                                     Fluttertoast.showToast(
                                         msg: "Requested type of accommodation is not available",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -768,6 +771,7 @@ class _reservationState extends State<reservation> {
                                         fontSize: 16.0);
                                     setState(() {
                                       loading = false;
+                                      newTime = null;
                                     });
                                   }
                                   else {
@@ -799,6 +803,11 @@ class _reservationState extends State<reservation> {
                                         });
                                       }
                                       else {
+                                        setState(() {
+                                          loading = false;
+                                          newTime = null;
+                                        });
+                                        getTimeData();
                                         Fluttertoast.showToast(
                                             msg: val.data['msg'],
                                             toastLength: Toast.LENGTH_SHORT,
@@ -806,9 +815,6 @@ class _reservationState extends State<reservation> {
                                             backgroundColor: Colors.red,
                                             textColor: Colors.white,
                                             fontSize: 16.0);
-                                        setState(() {
-                                          loading = false;
-                                        });
                                       }
                                     });
                                   }
@@ -859,7 +865,6 @@ class _reservationState extends State<reservation> {
       ),
     );
   }
-
 
   _openDatePicker(BuildContext context) async {
     final dateEnd = DateTime(DateTime.now().year + 10);
