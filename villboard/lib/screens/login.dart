@@ -15,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:villboard/services/color.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'adminsecuPage.dart';
+
 var loading = false;
 class loginscreen extends StatefulWidget {
   @override
@@ -220,63 +222,78 @@ class _loginscreenState extends State<loginscreen> {
                             AuthService().login(email, password).then((val) {
                               if (val.data['success']) {
                                 token = val.data['token'];
+                                print(val.data);
                                 AuthService().getinfo(token).then((val) async {
                                   //Printing firstName to console from Decodedtoken
                                   store = val.data['decodedtoken'];
                                   print(val.data);
-                                  var iD = store['_id'];
 
-                                  await StorageUtil.set_id(iD);
+                                    var iD = store['_id'];
 
-                                  var fname = store['firstName'];
+                                    await StorageUtil.set_id(iD);
 
-                                  await StorageUtil.setfirstName(fname);
+                                    var fname = store['firstName'];
 
-                                  var lname = store['lastName'];
+                                    await StorageUtil.setfirstName(fname);
 
-                                  await StorageUtil.setlastName(lname);
+                                    var lname = store['lastName'];
 
-                                  var mname = store['middleInitial'];
+                                    await StorageUtil.setlastName(lname);
 
-                                  await StorageUtil.setmiddleInitial(mname);
+                                    var mname = store['middleInitial'];
 
-                                  var ad = store['address'];
+                                    await StorageUtil.setmiddleInitial(mname);
 
-                                  await StorageUtil.setaddress(ad);
+                                    var ad = store['address'];
 
-                                  var pn = store['phoneNumber'];
+                                    await StorageUtil.setaddress(ad);
 
-                                  await StorageUtil.setphoneNumber(pn);
+                                    var pn = store['phoneNumber'];
 
-                                  var em = store['email'];
+                                    await StorageUtil.setphoneNumber(pn);
 
-                                  await StorageUtil.setemail(em);
+                                    var em = store['email'];
 
-                                  var profPic = store['photoUrlProfile'];
+                                    await StorageUtil.setemail(em);
 
-                                  await StorageUtil.set_profilePic(profPic);
+                                    var profPic = store['photoUrlProfile'];
+
+                                    await StorageUtil.set_profilePic(profPic);
 
 
-                                  if (store['petField'].isEmpty) {
-                                    print('patrick');
-                                  } else {
-                                    var pf = store['petField'][0]['petName'];
-                                    await StorageUtil.setpetField(pf);
-                                    var pb = store['petField'][0]['petBreed'];
-                                    await StorageUtil.setpetField(pb);
+                                    if (store['petField'].isEmpty) {
+                                      print('patrick');
+                                    } else {
+                                      var pf = store['petField'][0]['petName'];
+                                      await StorageUtil.setpetField(pf);
+                                      var pb = store['petField'][0]['petBreed'];
+                                      await StorageUtil.setpetField(pb);
+                                    }
+
+                                    // print(store['petField'][0]['petName']);
+                                    // Shared Preference
+                                  if(store['role'] == "homeowners"){
+                                    EasyLoading.dismiss();
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Dashboard()));
                                   }
-
-                                  // print(store['petField'][0]['petName']);
-                                  // Shared Preference
-                                  EasyLoading.dismiss();
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Dashboard()));
+                                  else{
+                                    EasyLoading.dismiss();
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AdminSecuPage()));
+                                  }
                                 });
                               }
                               else if(val.data == null){

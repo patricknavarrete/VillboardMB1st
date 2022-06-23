@@ -77,6 +77,7 @@ class _DashboardState extends State<Dashboard>
               SharedPreferences preference = await SharedPreferences.getInstance();
               preference.clear();
 
+              Navigator.pop(context);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => loginscreen()));
 
