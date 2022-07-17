@@ -45,6 +45,7 @@ dependencies:
   tab_indicator_styler:
   flutter_easyloading:
   date_field:
+  url_launcher: 6.1.5 
 
   flutter:
     sdk: flutter

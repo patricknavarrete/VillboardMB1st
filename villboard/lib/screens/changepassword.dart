@@ -42,7 +42,11 @@ class _changepasswordState extends State<changepassword> {
                   ),
                   Row(
                     children: [
-                      Icon( Icons.lock,size: 25,color: Colors.black,),
+                      Icon(
+                        Icons.lock,
+                        size: 25,
+                        color: Colors.black,
+                      ),
                       SizedBox(width: 5),
                       Text("Old Password"),
                     ],
@@ -63,6 +67,7 @@ class _changepasswordState extends State<changepassword> {
                               spreadRadius: 3.0),
                         ]),
                     child: TextFormField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Enter Old Password",
@@ -82,7 +87,11 @@ class _changepasswordState extends State<changepassword> {
                   ),
                   Row(
                     children: [
-                      Icon( Icons.lock,size: 25,color: Colors.black,),
+                      Icon(
+                        Icons.lock,
+                        size: 25,
+                        color: Colors.black,
+                      ),
                       SizedBox(width: 5),
                       Text("New Password"),
                     ],
@@ -103,6 +112,7 @@ class _changepasswordState extends State<changepassword> {
                               spreadRadius: 3.0),
                         ]),
                     child: TextFormField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "New Password",
@@ -122,7 +132,11 @@ class _changepasswordState extends State<changepassword> {
                   ),
                   Row(
                     children: [
-                      Icon( Icons.lock,size: 25,color: Colors.black,),
+                      Icon(
+                        Icons.lock,
+                        size: 25,
+                        color: Colors.black,
+                      ),
                       SizedBox(width: 5),
                       Text("Confirm New Password"),
                     ],
@@ -143,26 +157,25 @@ class _changepasswordState extends State<changepassword> {
                               spreadRadius: 3.0),
                         ]),
                     child: TextFormField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Confirm New Password",
-                        ),
-                        onChanged: (val) {
-                          cnewpass = val;
-                        },
-                        validator: (String val) {
-                          if (val.isEmpty) {
-                            return "Confirm New Password is required";
-                          }
-                          if(cnewpass != newpass){
-                            return "Confirm New Password and New Password is not Match";
-                          }
-                          return null;
-                        },
-                        ),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Confirm New Password",
+                      ),
+                      onChanged: (val) {
+                        cnewpass = val;
+                      },
+                      validator: (String val) {
+                        if (val.isEmpty) {
+                          return "Confirm New Password is required";
+                        }
+                        if (cnewpass != newpass) {
+                          return "Confirm New Password and New Password is not Match";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-
-
                   SizedBox(height: 30),
                   Center(
                     child: ButtonTheme(

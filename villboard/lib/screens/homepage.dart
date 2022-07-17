@@ -28,7 +28,6 @@ import 'package:villboard/services/dataset.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
 
@@ -54,7 +53,6 @@ class _DashboardState extends State<Dashboard>
 
   String em = StorageUtil.getemail() ?? '';
 
-
   Future<bool> logoutDialog() {
     return showDialog(
       context: context,
@@ -74,13 +72,13 @@ class _DashboardState extends State<Dashboard>
                     textColor: Colors.white,
                     fontSize: 16.0);
               });
-              SharedPreferences preference = await SharedPreferences.getInstance();
+              SharedPreferences preference =
+                  await SharedPreferences.getInstance();
               preference.clear();
 
               Navigator.pop(context);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => loginscreen()));
-
             },
           ),
           FlatButton(
@@ -121,27 +119,27 @@ class _DashboardState extends State<Dashboard>
                   DrawerHeader(
                     child: Column(
                       children: <Widget>[
-                      profilePic != null && profilePic != "" ?
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 52.0,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.green[100],
-                          radius: 50.0,
-                          backgroundImage: NetworkImage(profilePic),
-                        ),
-                      ):
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 52.0,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.blueGrey,
-                            radius: 50.0,
-                            child: Text(fname[0] +  lname[0],
-                                style: TextStyle(color: Colors.white, fontSize: 35)),
-                          ),
-                        ),
-
+                        profilePic != null && profilePic != ""
+                            ? CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 52.0,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.green[100],
+                                  radius: 50.0,
+                                  backgroundImage: NetworkImage(profilePic),
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 52.0,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.blueGrey,
+                                  radius: 50.0,
+                                  child: Text(fname[0] + lname[0],
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 35)),
+                                ),
+                              ),
                         SizedBox(
                           height: 10,
                         ),
@@ -207,7 +205,7 @@ class _DashboardState extends State<Dashboard>
                     },
                   ),
                   ListTile(
-                    title: Text("Car Registration",
+                    title: Text("Vehicle Registration",
                         style: TextStyle(color: Colors.white)),
                     trailing: Icon(
                       Icons.car_repair,
@@ -312,13 +310,13 @@ class _DashboardState extends State<Dashboard>
           ),
         ),
         body: TabBarView(
-            controller: controller,
-            children: <Widget>[
-              new announcement.Announcement(),
-              // new sell.Sell(),
-              // new funding.Funding(),
-              new events.Events(),
-            ],
+          controller: controller,
+          children: <Widget>[
+            new announcement.Announcement(),
+            // new sell.Sell(),
+            // new funding.Funding(),
+            new events.Events(),
+          ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         // floatingActionButton: FloatingActionButton(

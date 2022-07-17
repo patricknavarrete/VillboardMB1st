@@ -14,10 +14,12 @@ import 'package:villboard/services/sharedpref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:villboard/services/color.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'adminsecuPage.dart';
 
 var loading = false;
+
 class loginscreen extends StatefulWidget {
   @override
   _loginscreenState createState() => _loginscreenState();
@@ -60,31 +62,33 @@ class _loginscreenState extends State<loginscreen> {
                       end: Alignment.bottomCenter,
                       begin: Alignment.topCenter),
                   borderRadius:
-                  BorderRadius.vertical(bottom: Radius.circular(70)),
+                      BorderRadius.vertical(bottom: Radius.circular(70)),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      child:  Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FadeAnimation(
-                          1,
+                            1,
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width/3,
+                              width: MediaQuery.of(context).size.width / 3,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage('images/logo_vb.png'),
                                 ),
                               ),
                             ),
-                        ),
-                          SizedBox(height: 10,),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
-                            width: MediaQuery.of(context).size.width-100,
+                            width: MediaQuery.of(context).size.width - 100,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -92,7 +96,8 @@ class _loginscreenState extends State<loginscreen> {
                                   2,
                                   Container(
                                     height: 50,
-                                    width: MediaQuery.of(context).size.width/6,
+                                    width:
+                                        MediaQuery.of(context).size.width / 6,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage('images/leaf2.png'),
@@ -111,7 +116,8 @@ class _loginscreenState extends State<loginscreen> {
                                   3,
                                   Container(
                                     height: 50,
-                                    width: MediaQuery.of(context).size.width/6,
+                                    width:
+                                        MediaQuery.of(context).size.width / 6,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage('images/leaf2.png'),
@@ -122,7 +128,9 @@ class _loginscreenState extends State<loginscreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 15,),
+                          SizedBox(
+                            height: 15,
+                          ),
                           Container(
                             child: Center(
                               child: Text(
@@ -196,7 +204,7 @@ class _loginscreenState extends State<loginscreen> {
                       ),
                     ),
                     SizedBox(height: 50),
-                 //   loading == true ? CircularProgressIndicator(color: Colors.green,):
+                    //   loading == true ? CircularProgressIndicator(color: Colors.green,):
                     ButtonTheme(
                       minWidth: 200,
                       height: 50,
@@ -218,7 +226,7 @@ class _loginscreenState extends State<loginscreen> {
                           setState(() {
                             loading = true;
                           });
-                          try{
+                          try {
                             AuthService().login(email, password).then((val) {
                               if (val.data['success']) {
                                 token = val.data['token'];
@@ -228,51 +236,50 @@ class _loginscreenState extends State<loginscreen> {
                                   store = val.data['decodedtoken'];
                                   print(val.data);
 
-                                    var iD = store['_id'];
+                                  var iD = store['_id'];
 
-                                    await StorageUtil.set_id(iD);
+                                  await StorageUtil.set_id(iD);
 
-                                    var fname = store['firstName'];
+                                  var fname = store['firstName'];
 
-                                    await StorageUtil.setfirstName(fname);
+                                  await StorageUtil.setfirstName(fname);
 
-                                    var lname = store['lastName'];
+                                  var lname = store['lastName'];
 
-                                    await StorageUtil.setlastName(lname);
+                                  await StorageUtil.setlastName(lname);
 
-                                    var mname = store['middleInitial'];
+                                  var mname = store['middleInitial'];
 
-                                    await StorageUtil.setmiddleInitial(mname);
+                                  await StorageUtil.setmiddleInitial(mname);
 
-                                    var ad = store['address'];
+                                  var ad = store['address'];
 
-                                    await StorageUtil.setaddress(ad);
+                                  await StorageUtil.setaddress(ad);
 
-                                    var pn = store['phoneNumber'];
+                                  var pn = store['phoneNumber'];
 
-                                    await StorageUtil.setphoneNumber(pn);
+                                  await StorageUtil.setphoneNumber(pn);
 
-                                    var em = store['email'];
+                                  var em = store['email'];
 
-                                    await StorageUtil.setemail(em);
+                                  await StorageUtil.setemail(em);
 
-                                    var profPic = store['photoUrlProfile'];
+                                  var profPic = store['photoUrlProfile'];
 
-                                    await StorageUtil.set_profilePic(profPic);
+                                  await StorageUtil.set_profilePic(profPic);
 
+                                  if (store['petField'].isEmpty) {
+                                    print('patrick');
+                                  } else {
+                                    var pf = store['petField'][0]['petName'];
+                                    await StorageUtil.setpetField(pf);
+                                    var pb = store['petField'][0]['petBreed'];
+                                    await StorageUtil.setpetField(pb);
+                                  }
 
-                                    if (store['petField'].isEmpty) {
-                                      print('patrick');
-                                    } else {
-                                      var pf = store['petField'][0]['petName'];
-                                      await StorageUtil.setpetField(pf);
-                                      var pb = store['petField'][0]['petBreed'];
-                                      await StorageUtil.setpetField(pb);
-                                    }
-
-                                    // print(store['petField'][0]['petName']);
-                                    // Shared Preference
-                                  if(store['role'] == "homeowners"){
+                                  // print(store['petField'][0]['petName']);
+                                  // Shared Preference
+                                  if (store['role'] == "homeowners") {
                                     EasyLoading.dismiss();
                                     setState(() {
                                       loading = false;
@@ -282,8 +289,7 @@ class _loginscreenState extends State<loginscreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => Dashboard()));
-                                  }
-                                  else{
+                                  } else {
                                     EasyLoading.dismiss();
                                     setState(() {
                                       loading = false;
@@ -292,31 +298,31 @@ class _loginscreenState extends State<loginscreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => AdminSecuPage()));
+                                            builder: (context) =>
+                                                AdminSecuPage()));
                                   }
                                 });
-                              }
-                              else if(val.data == null){
+                              } else if (val.data == null) {
                                 setState(() {
                                   loading = false;
                                 });
                               }
                             });
-                          }
-                          catch(e){
+                          } catch (e) {
                             setState(() {
                               loading = false;
                             });
                           }
-
                         },
                       ),
                     ),
                     SizedBox(height: 50),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => register()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => register()));
                       },
                       child: Container(
                         child: Text('Create New Account',
@@ -331,6 +337,34 @@ class _loginscreenState extends State<loginscreen> {
                                     BorderSide(width: 1, color: Colors.green))),
                       ),
                     ),
+                    SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () async {
+                        const url =
+                            'https://villboard-23c49.web.app/Reset_Password';
+                        if (await canLaunch(url)) launch(url);
+                      },
+                      // {
+
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => register()));
+                      // },
+                      child: Container(
+                        child: Text('Reset Password',
+                            style: GoogleFonts.ptSans(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              color: greenColor,
+                            )),
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom:
+                                    BorderSide(width: 1, color: Colors.green))),
+                      ),
+                    ),
+
                     SizedBox(
                       height: 70,
                     ),
